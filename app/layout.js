@@ -1,5 +1,11 @@
 import localFont from "next/font/local";
+import { Montserrat } from "next/font/google"
 import "./globals.css";
+
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '700']
+})
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
