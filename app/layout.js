@@ -4,7 +4,9 @@ import "./globals.css";
 
 const montserrat = Montserrat({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '700']
+  weight: ['300', '400', '500', '700'],
+  style: 'normal',
+  display: 'swap'
 })
 
 const geistSans = localFont({
@@ -27,7 +29,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${montserrat.className} antialiased`}
       >
         {children}
       </body>

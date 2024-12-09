@@ -1,5 +1,6 @@
 import { Curve } from "@/components/Curve";
 import { Hero } from "@/components/Hero";
+import { ProjectList } from "@/components/ProjectList";
 import Image from "next/image";
 
 export default function Home() {
@@ -7,6 +8,7 @@ export default function Home() {
     <>
       <Hero />
       <Curve />
+      <ProjectList />
     </>
   );
 }
