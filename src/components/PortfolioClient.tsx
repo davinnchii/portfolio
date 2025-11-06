@@ -66,7 +66,7 @@ export default function PortfolioClient({ projects, education }: PortfolioClient
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0a0a0a] text-[#0a0a0a] dark:text-[#ededed]">
+    <div className="min-h-screen bg-white dark:bg-transparent text-[#0a0a0a] dark:text-[#ededed]">
       {/* Sidebar Navigation - Brittany Style */}
       <SidebarNav
         activeSection={activeSection}
@@ -74,7 +74,7 @@ export default function PortfolioClient({ projects, education }: PortfolioClient
       />
 
       {/* Mobile Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-sm border-b border-zinc-200 dark:border-zinc-800 md:hidden">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-black/40 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800/50 md:hidden">
         <Container>
           <div className="flex items-center justify-between py-4">
             <div className="text-xl font-semibold">Portfolio</div>

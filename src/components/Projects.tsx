@@ -81,9 +81,9 @@ export default function Projects({ sectionRef, projects }: ProjectsProps) {
           </p>
         </div>
 
-        <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16 xl:gap-20">
+        <div className="flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-20 xl:gap-24 2xl:gap-28">
           {/* Vertical Swiper Section */}
-          <div className="relative w-full max-w-md lg:max-w-lg xl:max-w-xl h-[500px] lg:h-[650px] xl:h-[750px] 2xl:h-[850px] animate-slide-in-left">
+          <div className="relative w-full max-w-md lg:max-w-lg xl:max-w-xl 2xl:max-w-2xl h-[500px] lg:h-[650px] xl:h-[750px] 2xl:h-[850px] animate-slide-in-left">
             <Swiper
               direction="vertical"
               slidesPerView={3}
@@ -108,11 +108,11 @@ export default function Projects({ sectionRef, projects }: ProjectsProps) {
                   <SwiperSlide key={project.id}>
                     <div
                       className={`
-                        relative w-full h-[180px] lg:h-[220px] xl:h-[260px] 2xl:h-[300px] mx-auto rounded-xl overflow-hidden shadow-2xl transition-all duration-700 border-2
+                        relative w-full h-[220px] lg:h-[280px] xl:h-[320px] 2xl:h-[360px] mx-auto rounded-2xl overflow-hidden shadow-2xl transition-all duration-700 border-2
                         ${
                           isActive
-                            ? 'scale-110 z-20 border-indigo-500 dark:border-indigo-400'
-                            : 'scale-90 opacity-60 grayscale border-zinc-200 dark:border-zinc-800'
+                            ? 'scale-100 z-20 border-indigo-500 dark:border-indigo-400'
+                            : 'scale-80 opacity-60 grayscale border-zinc-200 dark:border-zinc-800'
                         }
                       `}
                     >
@@ -121,11 +121,11 @@ export default function Projects({ sectionRef, projects }: ProjectsProps) {
                         src={project.image}
                         alt={project.title}
                         fill
-                        className="object-cover rounded-xl"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 500px, (max-width: 1536px) 600px, 700px"
+                        className="object-cover rounded-2xl"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 600px, (max-width: 1536px) 700px, 800px"
                       />
                     ) : (
-                      <div className="w-full h-full bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center">
+                      <div className="w-full h-full bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center rounded-2xl">
                         <span className="text-zinc-400 dark:text-zinc-600 text-sm">
                           No preview available
                         </span>
