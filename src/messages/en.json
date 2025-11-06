@@ -1,0 +1,103 @@
+{
+  "hero": {
+    "greeting": "Hi, my name is",
+    "name": "Ivan Zayko.",
+    "tagline": "I build things for the web.",
+    "description": "Passionate about building modern, elegant web apps with React, TypeScript, and TailwindCSS.",
+    "cta": "Check out my work"
+  },
+  "about": {
+    "title": "About Me",
+    "intro": "Hello! I'm a",
+    "role": "frontend developer",
+    "location": "based in Norway, Telemark, specializing in building exceptional digital experiences using JavaScript and modern frameworks. I'm easily adaptable, a quick learner, and thrive in fast-paced environments.",
+    "skills": "I have a proven ability to create new projects from scratch using modern technologies, such as",
+    "techStack": "React + TypeScript with TailwindCSS",
+    "maintenance": ", as well as maintain and refactor existing software by integrating new technologies and architectural improvements.",
+    "recentTech": "Here are a few technologies I've been working with recently:"
+  },
+  "education": {
+    "title": "Education",
+    "items": [
+      {
+        "period": "2022 - 2026",
+        "institution": "Nizhyn Gogol State University",
+        "degree": "Bachelor's Degree in Computer Science",
+        "description": "Currently pursuing a degree in Computer Science with focus on modern software development practices."
+      },
+      {
+        "period": "2022 - 2023",
+        "institution": "Lublin University of Technology",
+        "degree": "Bachelor's Degree in Engineering and Data Analysis (Incomplete)",
+        "description": "Studied Engineering and Data Analysis, gaining knowledge in data processing and analytical methods."
+      },
+      {
+        "period": "2021",
+        "institution": "Mate Academy",
+        "degree": "Full-time Fullstack Course",
+        "description": "Completed an intensive full-time Full-Stack Development course covering HTML/CSS, JavaScript, React/Redux, Node.js, SQL, databases, algorithms, and web development. The program emphasized practical, hands-on experience with real-world projects and included career support with interview preparation and job placement assistance."
+      }
+    ]
+  },
+  "projects": {
+    "title": "Projects",
+    "subtitle": "Here are some of the projects I've worked on.",
+    "viewProject": "View Project →",
+    "github": "GitHub →",
+    "items": [
+      {
+        "id": 1,
+        "title": "Mushiii - Mushroom Coffee E-commerce",
+        "description": "A fully functional Shopify store for Mushiii, a premium mushroom-powered coffee brand. Developed custom theme, product pages, subscription functionality, and integrated payment systems. Features include monthly subscription options, product variants, and a modern, responsive design that showcases the brand's unique identity.",
+        "tech": ["Shopify", "Liquid", "JavaScript", "CSS", "HTML"],
+        "image": "/mushiii.png",
+        "link": "https://mushiii.com/"
+      },
+      {
+        "id": 2,
+        "title": "SleepSharm - Bedding & Home Textiles Store",
+        "description": "E-commerce Shopify store for SleepSharm, a Ukrainian bedding and home textiles retailer. Built custom product collections, filtering system, and multi-language support. Implemented responsive design with advanced product filtering, size selection, and seamless checkout experience for the Ukrainian market.",
+        "tech": ["Shopify", "Liquid", "JavaScript", "CSS", "HTML"],
+        "image": "/sleepsharm.png",
+        "link": "https://sleepsharm.com.ua/"
+      },
+      {
+        "id": 3,
+        "title": "Metaversus Landing",
+        "description": "A modern, interactive landing page for Metaversus built with Next.js, TailwindCSS, and Framer Motion. The project features smooth animations, responsive design, and engaging user interactions. Implemented custom animations using Framer Motion for page transitions and scroll-triggered effects. The design emphasizes a futuristic aesthetic with carefully crafted UI components and seamless navigation. Optimized for performance with Next.js server-side rendering and image optimization.",
+        "tech": ["Next.js", "TailwindCSS", "Framer Motion", "TypeScript"],
+        "image": "/metaversus.png",
+        "link": "#",
+        "github": "#"
+      },
+      {
+        "id": 4,
+        "title": "APPLE gadgets Store",
+        "description": "A full-stack e-commerce application for an online phone and accessories store. Built with React and TypeScript on the frontend, featuring a clean and intuitive user interface using MaterialUI and custom Sass styling. The backend is powered by Node.js with Express, handling product management, user authentication, and order processing. Includes features like product filtering, search functionality, shopping cart, and secure checkout process. The application provides a seamless shopping experience with responsive design across all devices.",
+        "tech": ["React", "Sass", "MaterialUI", "Node.js", "TypeScript"],
+        "image": "/apple-store.png",
+        "link": "#",
+        "github": "#"
+      },
+      {
+        "id": 5,
+        "title": "Checklist Application with React",
+        "description": "A comprehensive task management application built with React and TypeScript. Features a clean, minimalist interface for creating, organizing, and tracking tasks. The app integrates with a RESTful API for persistent data storage, allowing users to add, edit, delete, and mark tasks as complete. Includes local state management for real-time updates and smooth user interactions. The application demonstrates modern React patterns including hooks, component composition, and TypeScript for type safety. Designed with a focus on usability and performance.",
+        "tech": ["React", "TypeScript"],
+        "image": "/checklist.png",
+        "link": "#",
+        "github": "#"
+      }
+    ]
+  },
+  "nav": {
+    "about": "About",
+    "education": "Edu",
+    "projects": "Work",
+    "portfolio": "Portfolio"
+  },
+  "footer": {
+    "designed": "Designed & Built by You"
+  }
+}
+

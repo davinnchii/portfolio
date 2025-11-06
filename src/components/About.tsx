@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { SiTypescript, SiShopify, SiNextdotjs, SiTailwindcss } from 'react-icons/si';
 
 interface AboutProps {
@@ -14,6 +15,8 @@ const technologies = [
 ];
 
 export default function About({ sectionRef }: AboutProps) {
+  const t = useTranslations('about');
+  
   return (
     <section
       ref={sectionRef}
@@ -23,29 +26,25 @@ export default function About({ sectionRef }: AboutProps) {
       <div className="max-w-4xl mx-auto w-full">
         <h2 className="text-2xl sm:text-3xl font-bold mb-12 text-center text-zinc-900 dark:text-zinc-100">
           <span className="text-zinc-400 dark:text-zinc-600 font-mono text-lg">01.</span>{' '}
-          About Me
+          {t('title')}
         </h2>
         <div className="space-y-6 text-zinc-600 dark:text-zinc-400 leading-relaxed">
           <p className="text-lg sm:text-xl">
-            Hello! I'm a{' '}
+            {t('intro')}{' '}
             <span className="font-semibold text-zinc-900 dark:text-zinc-100 bg-gradient-to-r from-indigo-500 to-purple-500 dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent">
-              frontend developer
+              {t('role')}
             </span>{' '}
-            based in Norway, Telemark, specializing in building exceptional digital experiences using 
-            JavaScript and modern frameworks. I'm easily adaptable, a quick learner, and thrive in 
-            fast-paced environments.
+            {t('location')}
           </p>
           <p className="text-lg sm:text-xl">
-            I have a proven ability to create new projects from scratch using modern technologies, 
-            such as{' '}
+            {t('skills')}{' '}
             <span className="font-medium text-zinc-800 dark:text-zinc-200">
-              React + TypeScript with TailwindCSS
+              {t('techStack')}
             </span>
-            , as well as maintain and refactor existing software by integrating new technologies 
-            and architectural improvements.
+            {t('maintenance')}
           </p>
           <p className="text-lg sm:text-xl font-medium text-zinc-800 dark:text-zinc-200 mt-8">
-            Here are a few technologies I've been working with recently:
+            {t('recentTech')}
           </p>
           <ul className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6 list-none max-w-2xl mx-auto">
             {technologies.map((tech) => {

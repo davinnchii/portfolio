@@ -1,0 +1,103 @@
+{
+  "hero": {
+    "greeting": "Hei, mitt navn er",
+    "name": "Ivan Zayko.",
+    "tagline": "Jeg bygger ting for nettet.",
+    "description": "Passionert for å bygge moderne, elegante nettapper med React, TypeScript og TailwindCSS.",
+    "cta": "Se på arbeidet mitt"
+  },
+  "about": {
+    "title": "Om meg",
+    "intro": "Hei! Jeg er en",
+    "role": "frontend-utvikler",
+    "location": "basert i Norge, Telemark, som spesialiserer seg på å bygge eksepsjonelle digitale opplevelser ved bruk av JavaScript og moderne rammeverk. Jeg er lett tilpasningsdyktig, rask til å lære, og trives i raskt tempo.",
+    "skills": "Jeg har en dokumentert evne til å lage nye prosjekter fra grunnen av ved bruk av moderne teknologier, som",
+    "techStack": "React + TypeScript med TailwindCSS",
+    "maintenance": ", samt vedlikeholde og refaktorere eksisterende programvare ved å integrere nye teknologier og arkitektoniske forbedringer.",
+    "recentTech": "Her er noen få teknologier jeg har jobbet med nylig:"
+  },
+  "education": {
+    "title": "Utdanning",
+    "items": [
+      {
+        "period": "2022 - 2026",
+        "institution": "Nizhyn Gogol State University",
+        "degree": "Bachelor i informatikk",
+        "description": "Pågående studier i informatikk med fokus på moderne programvareutviklingspraksis."
+      },
+      {
+        "period": "2022 - 2023",
+        "institution": "Lublin University of Technology",
+        "degree": "Bachelor i ingeniørfag og dataanalyse (Ufullstendig)",
+        "description": "Studerte ingeniørfag og dataanalyse, og tilegnet seg kunnskap om databehandling og analytiske metoder."
+      },
+      {
+        "period": "2021",
+        "institution": "Mate Academy",
+        "degree": "Fulltid Fullstack-kurs",
+        "description": "Fullførte et intensivt fulltid Full-Stack Development-kurs som dekket HTML/CSS, JavaScript, React/Redux, Node.js, SQL, databaser, algoritmer og webutvikling. Programmet la vekt på praktisk, hands-on erfaring med virkelige prosjekter og inkluderte karrierestøtte med intervjuforberedelse og jobbplassering."
+      }
+    ]
+  },
+  "projects": {
+    "title": "Prosjekter",
+    "subtitle": "Her er noen av prosjektene jeg har jobbet med.",
+    "viewProject": "Se prosjekt →",
+    "github": "GitHub →",
+    "items": [
+      {
+        "id": 1,
+        "title": "Mushiii - Soppkaffe E-handel",
+        "description": "En fullt funksjonell Shopify-butikk for Mushiii, et premium soppdrevet kaffemerke. Utviklet tilpasset tema, produktsider, abonnementsfunksjonalitet og integrerte betalingssystemer. Funksjoner inkluderer månedlige abonnementsalternativer, produktvarianter og et moderne, responsivt design som viser merkevarets unike identitet.",
+        "tech": ["Shopify", "Liquid", "JavaScript", "CSS", "HTML"],
+        "image": "/mushiii.png",
+        "link": "https://mushiii.com/"
+      },
+      {
+        "id": 2,
+        "title": "SleepSharm - Sengetøy og hjemmetekstiler butikk",
+        "description": "E-handel Shopify-butikk for SleepSharm, en ukrainsk sengetøy og hjemmetekstiler forhandler. Bygget tilpassede produktsamlinger, filtreringssystem og flerspråklig støtte. Implementert responsivt design med avansert produktfiltrering, størrelsesvalg og sømløs kasseopplevelse for det ukrainske markedet.",
+        "tech": ["Shopify", "Liquid", "JavaScript", "CSS", "HTML"],
+        "image": "/sleepsharm.png",
+        "link": "https://sleepsharm.com.ua/"
+      },
+      {
+        "id": 3,
+        "title": "Metaversus Landing",
+        "description": "En moderne, interaktiv landingsside for Metaversus bygget med Next.js, TailwindCSS og Framer Motion. Prosjektet har jevne animasjoner, responsivt design og engasjerende brukeropplevelser. Implementert tilpassede animasjoner ved bruk av Framer Motion for sidetransisjoner og rulle-triggede effekter. Designet legger vekt på en futuristisk estetikk med nøye utformede UI-komponenter og sømløs navigasjon. Optimalisert for ytelse med Next.js server-side rendering og bildeoptimalisering.",
+        "tech": ["Next.js", "TailwindCSS", "Framer Motion", "TypeScript"],
+        "image": "/metaversus.png",
+        "link": "#",
+        "github": "#"
+      },
+      {
+        "id": 4,
+        "title": "APPLE gadgets Butikk",
+        "description": "En full-stack e-handelsapplikasjon for en nettbasert telefon og tilbehør butikk. Bygget med React og TypeScript på frontend, med et rent og intuitivt brukergrensesnitt ved bruk av MaterialUI og tilpasset Sass-styling. Backend er drevet av Node.js med Express, som håndterer produktstyring, brukerautentisering og ordrebehandling. Inkluderer funksjoner som produktfiltrering, søkefunksjonalitet, handlekurv og sikker kasseprosess. Applikasjonen gir en sømløs shoppingopplevelse med responsivt design på tvers av alle enheter.",
+        "tech": ["React", "Sass", "MaterialUI", "Node.js", "TypeScript"],
+        "image": "/apple-store.png",
+        "link": "#",
+        "github": "#"
+      },
+      {
+        "id": 5,
+        "title": "Sjekkliste-applikasjon med React",
+        "description": "En omfattende oppgavestyringsapplikasjon bygget med React og TypeScript. Har et rent, minimalistisk grensesnitt for å opprette, organisere og spore oppgaver. Appen integrerer med en RESTful API for vedvarende datalagring, slik at brukere kan legge til, redigere, slette og merke oppgaver som fullført. Inkluderer lokal tilstandshåndtering for sanntidsoppdateringer og jevne brukerinteraksjoner. Applikasjonen demonstrerer moderne React-mønstre inkludert hooks, komponentkomposisjon og TypeScript for typesikkerhet. Designet med fokus på brukervennlighet og ytelse.",
+        "tech": ["React", "TypeScript"],
+        "image": "/checklist.png",
+        "link": "#",
+        "github": "#"
+      }
+    ]
+  },
+  "nav": {
+    "about": "Om",
+    "education": "Utd",
+    "projects": "Arb",
+    "portfolio": "Portefølje"
+  },
+  "footer": {
+    "designed": "Designet og bygget av deg"
+  }
+}
+

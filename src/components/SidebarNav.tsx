@@ -1,22 +1,25 @@
 "use client";
 
 import React from "react";
+import { useTranslations } from 'next-intl';
 
 interface SidebarNavProps {
     activeSection: string;
     scrollToSection: (sectionId: string) => void;
 }
 
-const sections = [
-    { id: "about", label: "About", short: "01" },
-    { id: "education", label: "Edu", short: "02" },
-    { id: "projects", label: "Work", short: "03" },
-];
-
 export const SidebarNav: React.FC<SidebarNavProps> = ({
     activeSection,
     scrollToSection,
 }) => {
+    const t = useTranslations('nav');
+    
+    const sections = [
+        { id: "about", label: t('about'), short: "01" },
+        { id: "education", label: t('education'), short: "02" },
+        { id: "projects", label: t('projects'), short: "03" },
+    ];
+    
     return (
         <aside className="fixed left-0 top-0 bottom-0 w-16 md:w-20 z-50 hidden md:flex flex-col items-center justify-center">
             <nav className="flex flex-col gap-6">

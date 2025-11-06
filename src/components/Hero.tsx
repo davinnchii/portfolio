@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import TypingText from './TypingText';
 import GhostAnimation from './GhostAnimation';
 // import LaptopAnimation from './LaptopAnimation';
@@ -12,6 +13,8 @@ interface HeroProps {
 }
 
 export default function Hero({ isVisible, typingPhase, setTypingPhase }: HeroProps) {
+  const t = useTranslations('hero');
+  
   useEffect(() => {
     // Typing animation sequence
     const typingSequence = setTimeout(() => {
@@ -40,7 +43,7 @@ export default function Hero({ isVisible, typingPhase, setTypingPhase }: HeroPro
           <p className="text-lg text-zinc-600 dark:text-zinc-400 mb-2">
             <TypingText
               key="intro-0"
-              text="Hi, my name is"
+              text={t('greeting')}
               showCursor={typingPhase === 0}
               speed={100}
             />
@@ -50,7 +53,7 @@ export default function Hero({ isVisible, typingPhase, setTypingPhase }: HeroPro
           <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold mb-4 bg-gradient-to-r from-zinc-900 to-zinc-600 dark:from-zinc-100 dark:to-zinc-400 bg-clip-text text-transparent">
             <TypingText
               key="name-1"
-              text="Ivan Zayko."
+              text={t('name')}
               showCursor={typingPhase === 1}
               speed={80}
             />
@@ -60,7 +63,7 @@ export default function Hero({ isVisible, typingPhase, setTypingPhase }: HeroPro
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-zinc-700 dark:text-zinc-300">
             <TypingText
               key="tagline-2"
-              text="I build things for the web."
+              text={t('tagline')}
               showCursor={typingPhase === 2}
               speed={80}
             />
@@ -70,7 +73,7 @@ export default function Hero({ isVisible, typingPhase, setTypingPhase }: HeroPro
           <p className="text-lg sm:text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed">
             <TypingText
               key="description-3"
-              text='Passionate about building modern, elegant web apps with React, TypeScript, and TailwindCSS.'
+              text={t('description')}
               speed={30}
               showCursor={false}
             />
@@ -82,7 +85,7 @@ export default function Hero({ isVisible, typingPhase, setTypingPhase }: HeroPro
           href="#projects"
           className="inline-block px-8 py-3 border border-indigo-500 dark:border-indigo-400 rounded text-sm font-medium hover:bg-indigo-500 hover:text-white dark:hover:bg-indigo-400 dark:hover:text-[#0a0a0a] transition-all duration-300"
         >
-          Check out my work
+          {t('cta')}
         </a>
       </div>
     </section>

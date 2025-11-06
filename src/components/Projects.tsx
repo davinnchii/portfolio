@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
@@ -61,6 +62,7 @@ interface ProjectsProps {
 }
 
 export default function Projects({ sectionRef, projects }: ProjectsProps) {
+  const t = useTranslations('projects');
   const [activeIndex, setActiveIndex] = useState(0);
   const swiperRef = useRef<SwiperType | null>(null);
 
@@ -74,10 +76,10 @@ export default function Projects({ sectionRef, projects }: ProjectsProps) {
         <div className="mb-12 text-center">
           <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-zinc-900 dark:text-zinc-100">
             <span className="text-zinc-400 dark:text-zinc-600 font-mono text-lg">03.</span>{' '}
-            Projects
+            {t('title')}
           </h2>
           <p className="text-zinc-600 dark:text-zinc-400">
-            Here are some of the projects I've worked on.
+            {t('subtitle')}
           </p>
         </div>
 
@@ -183,7 +185,7 @@ export default function Projects({ sectionRef, projects }: ProjectsProps) {
                     rel="noopener noreferrer"
                     className="text-sm font-medium text-zinc-900 dark:text-zinc-100 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors duration-200"
                   >
-                    View Project →
+                    {t('viewProject')}
                   </a>
                 )}
                 {projects[activeIndex].github && (
@@ -193,7 +195,7 @@ export default function Projects({ sectionRef, projects }: ProjectsProps) {
                     rel="noopener noreferrer"
                     className="text-sm font-medium text-zinc-900 dark:text-zinc-100 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors duration-200"
                   >
-                    GitHub →
+                    {t('github')}
                   </a>
                 )}
               </div>

@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { FaGraduationCap, FaUniversity } from 'react-icons/fa';
 
 export interface Education {
@@ -15,6 +16,8 @@ interface EducationProps {
 }
 
 export default function Education({ sectionRef, education }: EducationProps) {
+  const t = useTranslations('education');
+  
   return (
     <section
       ref={sectionRef}
@@ -24,7 +27,7 @@ export default function Education({ sectionRef, education }: EducationProps) {
       <div className="max-w-5xl mx-auto w-full">
         <h2 className="text-2xl sm:text-3xl font-bold mb-12 text-center text-zinc-900 dark:text-zinc-100">
           <span className="text-zinc-400 dark:text-zinc-600 font-mono text-lg">02.</span>{' '}
-          Education
+          {t('title')}
         </h2>
         <div className="space-y-6">
           {education.map((edu, index) => (
