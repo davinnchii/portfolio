@@ -18,12 +18,14 @@
   },
   "education": {
     "title": "Utdanning",
+    "viewProject": "Se innleveringsprosjekt →",
     "items": [
       {
         "period": "2022 - 2026",
         "institution": "Nizhyn Gogol State University",
         "degree": "Bachelor i informatikk",
-        "description": "Pågående studier i informatikk med fokus på moderne programvareutviklingspraksis."
+        "description": "Pågående studier i informatikk med fokus på moderne programvareutviklingspraksis.",
+        "projectId": 6
       },
       {
         "period": "2022 - 2023",
@@ -87,6 +89,15 @@
         "image": "/checklist.png",
         "link": "#",
         "github": "#"
+      },
+      {
+        "id": 6,
+        "title": "Reisebyrå administrasjonssystem",
+        "description": "En full-stack nettapplikasjon for administrasjon av reiseoperasjoner mellom reiseoperatører og reisebyråer. Bygget som et universitetsprosjekt i programvareutvikling med React, TypeScript og Node.js. Har rollebasert tilgangskontroll, reiseadministrasjon, bestillingsforespørselsystem og abonnementsfunksjonalitet. Inkluderer moderne brukergrensesnitt med mørk modus-støtte, internasjonalisering (engelsk/ukrainsk) og sanntidsdatahåndtering. Backend bruker Express.js med MongoDB, og implementerer JWT-autentisering og RESTful API-design.",
+        "tech": ["React", "TypeScript", "Node.js", "Express", "MongoDB", "TailwindCSS"],
+        "image": "/tour-agency.png",
+        "link": "https://davinnchii.github.io/tour_agency/",
+        "github": "https://github.com/davinnchii/tour_agency"
       }
     ]
   },

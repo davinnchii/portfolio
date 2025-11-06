@@ -18,12 +18,14 @@
   },
   "education": {
     "title": "Education",
+    "viewProject": "View Submission Project →",
     "items": [
       {
         "period": "2022 - 2026",
         "institution": "Nizhyn Gogol State University",
         "degree": "Bachelor's Degree in Computer Science",
-        "description": "Currently pursuing a degree in Computer Science with focus on modern software development practices."
+        "description": "Currently pursuing a degree in Computer Science with focus on modern software development practices.",
+        "projectId": 6
       },
       {
         "period": "2022 - 2023",
@@ -87,6 +89,15 @@
         "image": "/checklist.png",
         "link": "#",
         "github": "#"
+      },
+      {
+        "id": 6,
+        "title": "Tour Agency Management System",
+        "description": "A full-stack web application for managing tour operations between tour operators and travel agents. Built as a university Software Engineering project with React, TypeScript, and Node.js. Features role-based access control, tour management, booking request system, and subscription functionality. Includes modern UI with dark mode support, internationalization (English/Ukrainian), and real-time data management. The backend uses Express.js with MongoDB, implementing JWT authentication and RESTful API design.",
+        "tech": ["React", "TypeScript", "Node.js", "Express", "MongoDB", "TailwindCSS"],
+        "image": "/tour-agency.png",
+        "link": "https://davinnchii.github.io/tour_agency/",
+        "github": "https://github.com/davinnchii/tour_agency"
       }
     ]
   },

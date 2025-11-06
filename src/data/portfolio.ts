@@ -45,6 +45,15 @@ export const projects: Project[] = [
     link: '#', // Add your demo link
     github: '#', // Add your GitHub link
   },
+  {
+    id: 6,
+    title: 'Tour Agency Management System',
+    description: 'A full-stack web application for managing tour operations between tour operators and travel agents. Built as a university Software Engineering project with React, TypeScript, and Node.js. Features role-based access control, tour management, booking request system, and subscription functionality. Includes modern UI with dark mode support, internationalization (English/Ukrainian), and real-time data management. The backend uses Express.js with MongoDB, implementing JWT authentication and RESTful API design.',
+    tech: ['React', 'TypeScript', 'Node.js', 'Express', 'MongoDB', 'TailwindCSS'],
+    image: '/tour-agency.png', // Add your project images to /public folder
+    link: 'https://davinnchii.github.io/tour_agency/',
+    github: 'https://github.com/davinnchii/tour_agency',
+  },
 ];
 
 export const education: Education[] = [
@@ -53,6 +62,7 @@ export const education: Education[] = [
     institution: 'Nizhyn Gogol State University',
     degree: 'Bachelor\'s Degree in Computer Science',
     description: 'Currently pursuing a degree in Computer Science with focus on modern software development practices.',
+    projectId: 6, // Tour Agency Management System
   },
   {
     period: '2022 - 2023',

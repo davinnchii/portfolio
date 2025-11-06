@@ -8,14 +8,16 @@ export interface Education {
   institution: string;
   degree: string;
   description: string;
+  projectId?: number;
 }
 
 interface EducationProps {
   sectionRef: (el: HTMLElement | null) => void;
   education: Education[];
+  scrollToProject?: (projectId: number) => void;
 }
 
-export default function Education({ sectionRef, education }: EducationProps) {
+export default function Education({ sectionRef, education, scrollToProject }: EducationProps) {
   const t = useTranslations('education');
   
   return (
@@ -59,9 +61,17 @@ export default function Education({ sectionRef, education }: EducationProps) {
                       {edu.period}
                     </div>
                   </div>
-                  <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed text-base">
+                  <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed text-base mb-4">
                     {edu.description}
                   </p>
+                  {edu.projectId && scrollToProject && (
+                    <button
+                      onClick={() => scrollToProject(edu.projectId!)}
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-500 dark:bg-indigo-400 text-white rounded-lg hover:bg-indigo-600 dark:hover:bg-indigo-500 transition-colors duration-200 text-sm font-medium"
+                    >
+                      {t('viewProject')}
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

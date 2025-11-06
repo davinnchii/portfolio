@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useImperativeHandle, forwardRef } from 'react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -19,6 +19,8 @@ import {
   SiSass,
   SiMui,
   SiNodedotjs,
+  SiMongodb,
+  SiExpress,
 } from 'react-icons/si';
 import { HiCode } from 'react-icons/hi';
 import type { Swiper as SwiperType } from 'swiper';
@@ -39,6 +41,8 @@ const techIcons: Record<string, IconType> = {
   Sass: SiSass,
   MaterialUI: SiMui,
   'Node.js': SiNodedotjs,
+  MongoDB: SiMongodb,
+  Express: SiExpress,
 };
 
 // Import Swiper styles
@@ -61,10 +65,24 @@ interface ProjectsProps {
   projects: Project[];
 }
 
-export default function Projects({ sectionRef, projects }: ProjectsProps) {
+export interface ProjectsRef {
+  goToProject: (projectId: number) => void;
+}
+
+const Projects = forwardRef<ProjectsRef, ProjectsProps>(({ sectionRef, projects }, ref) => {
   const t = useTranslations('projects');
   const [activeIndex, setActiveIndex] = useState(0);
   const swiperRef = useRef<SwiperType | null>(null);
+
+  useImperativeHandle(ref, () => ({
+    goToProject: (projectId: number) => {
+      const projectIndex = projects.findIndex((p) => p.id === projectId);
+      if (projectIndex !== -1 && swiperRef.current) {
+        swiperRef.current.slideToLoop(projectIndex);
+        setActiveIndex(projectIndex);
+      }
+    },
+  }));
 
   return (
     <section
@@ -224,5 +242,9 @@ export default function Projects({ sectionRef, projects }: ProjectsProps) {
       </div>
     </section>
   );
-}
+});
+
+Projects.displayName = 'Projects';
+
+export default Projects;
 

@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import Hero from '@/components/Hero';
 import About from '@/components/About';
 import EducationComponent from '@/components/Education';
-import ProjectsComponent from '@/components/Projects';
+import ProjectsComponent, { type ProjectsRef } from '@/components/Projects';
 import Container from '@/components/Container';
 import type { Education } from '@/components/Education';
 import type { Project } from '@/components/Projects';
@@ -24,6 +24,7 @@ export default function PortfolioClient({ projects, education }: PortfolioClient
   const [activeSection, setActiveSection] = useState('about');
   const [typingPhase, setTypingPhase] = useState(0);
   const sectionsRef = useRef<(HTMLElement | null)[]>([]);
+  const projectsRef = useRef<ProjectsRef>(null);
 
   useEffect(() => {
     setIsVisible(true);
@@ -67,6 +68,14 @@ export default function PortfolioClient({ projects, education }: PortfolioClient
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+  };
+
+  const scrollToProject = (projectId: number) => {
+    scrollToSection('projects');
+    // Small delay to ensure the section is scrolled before changing the project
+    setTimeout(() => {
+      projectsRef.current?.goToProject(projectId);
+    }, 300);
   };
 
   return (
@@ -125,9 +134,11 @@ export default function PortfolioClient({ projects, education }: PortfolioClient
               sectionsRef.current[1] = el;
             }}
             education={education}
+            scrollToProject={scrollToProject}
           />
 
           <ProjectsComponent
+            ref={projectsRef}
             sectionRef={(el) => {
               sectionsRef.current[2] = el;
             }}
