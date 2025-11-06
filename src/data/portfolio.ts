@@ -4,37 +4,44 @@ import type { Project } from '@/components/Projects';
 export const projects: Project[] = [
   {
     id: 1,
-    title: 'Metaversus Landing',
-    description: 'Landing page about Metaversus using Next.js, Tailwind and framer motion lib.',
-    tech: ['Next.js', 'TailwindCSS', 'Framer Motion', 'TypeScript'],
-    image: '/metaversus.jpg', // Add your project images to /public folder
-    link: '#', // Add your demo link
-    github: '#', // Add your GitHub link
+    title: 'Mushiii - Mushroom Coffee E-commerce',
+    description: 'A fully functional Shopify store for Mushiii, a premium mushroom-powered coffee brand. Developed custom theme, product pages, subscription functionality, and integrated payment systems. Features include monthly subscription options, product variants, and a modern, responsive design that showcases the brand\'s unique identity.',
+    tech: ['Shopify', 'Liquid', 'JavaScript', 'CSS', 'HTML'],
+    image: '/mushiii.png', // Add your project images to /public folder
+    link: 'https://mushiii.com/',
   },
   {
     id: 2,
-    title: 'APPLE gadgets Store',
-    description: 'An online phone store with full-stack capabilities, offering a user-friendly interface for effortless browsing and purchasing of a diverse selection of phones and accessories.',
-    tech: ['React', 'Sass', 'MaterialUI', 'Node.js', 'TypeScript'],
-    image: '/apple-store.jpg', // Add your project images to /public folder
-    link: '#', // Add your demo link
-    github: '#', // Add your GitHub Frontend link
+    title: 'SleepSharm - Bedding & Home Textiles Store',
+    description: 'E-commerce Shopify store for SleepSharm, a Ukrainian bedding and home textiles retailer. Built custom product collections, filtering system, and multi-language support. Implemented responsive design with advanced product filtering, size selection, and seamless checkout experience for the Ukrainian market.',
+    tech: ['Shopify', 'Liquid', 'JavaScript', 'CSS', 'HTML'],
+    image: '/sleepsharm.png', // Add your project images to /public folder
+    link: 'https://sleepsharm.com.ua/',
   },
   {
     id: 3,
-    title: 'Quizz with Next.js API',
-    description: 'Mini-quizz page with simple UI and storing data using Next.js backend routes.',
-    tech: ['Next.js', 'TailwindCSS', 'TypeScript'],
-    image: '/quizz.jpg', // Add your project images to /public folder
+    title: 'Metaversus Landing',
+    description: 'A modern, interactive landing page for Metaversus built with Next.js, TailwindCSS, and Framer Motion. The project features smooth animations, responsive design, and engaging user interactions. Implemented custom animations using Framer Motion for page transitions and scroll-triggered effects. The design emphasizes a futuristic aesthetic with carefully crafted UI components and seamless navigation. Optimized for performance with Next.js server-side rendering and image optimization.',
+    tech: ['Next.js', 'TailwindCSS', 'Framer Motion', 'TypeScript'],
+    image: '/metaversus.png', // Add your project images to /public folder
     link: '#', // Add your demo link
     github: '#', // Add your GitHub link
   },
   {
     id: 4,
+    title: 'APPLE gadgets Store',
+    description: 'A full-stack e-commerce application for an online phone and accessories store. Built with React and TypeScript on the frontend, featuring a clean and intuitive user interface using MaterialUI and custom Sass styling. The backend is powered by Node.js with Express, handling product management, user authentication, and order processing. Includes features like product filtering, search functionality, shopping cart, and secure checkout process. The application provides a seamless shopping experience with responsive design across all devices.',
+    tech: ['React', 'Sass', 'MaterialUI', 'Node.js', 'TypeScript'],
+    image: '/apple-store.png', // Add your project images to /public folder
+    link: '#', // Add your demo link
+    github: '#', // Add your GitHub Frontend link
+  },
+  {
+    id: 5,
     title: 'Checklist Application with React',
-    description: 'Simple task-management app, which uses API to store tasks and allows users to add, delete, and edit tasks.',
+    description: 'A comprehensive task management application built with React and TypeScript. Features a clean, minimalist interface for creating, organizing, and tracking tasks. The app integrates with a RESTful API for persistent data storage, allowing users to add, edit, delete, and mark tasks as complete. Includes local state management for real-time updates and smooth user interactions. The application demonstrates modern React patterns including hooks, component composition, and TypeScript for type safety. Designed with a focus on usability and performance.',
     tech: ['React', 'TypeScript'],
-    image: '/checklist.jpg', // Add your project images to /public folder
+    image: '/checklist.png', // Add your project images to /public folder
     link: '#', // Add your demo link
     github: '#', // Add your GitHub link
   },
