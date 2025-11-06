@@ -1,5 +1,4 @@
 import type { Education } from '@/components/Education';
-import type { TechSkill } from '@/components/Skills';
 import type { Project } from '@/components/Projects';
 
 export const projects: Project[] = [
@@ -59,29 +58,6 @@ export const education: Education[] = [
     institution: 'Mate Academy',
     degree: 'Full-time Fullstack Course',
     description: 'Completed an intensive full-time Full-Stack Development course covering HTML/CSS, JavaScript, React/Redux, Node.js, SQL, databases, algorithms, and web development. The program emphasized practical, hands-on experience with real-world projects and included career support with interview preparation and job placement assistance.',
-  },
-];
-
-export const techSkills: TechSkill[] = [
-  {
-    category: 'Frontend',
-    skills: ['TypeScript', 'JavaScript (ES2015-2019)', 'React', 'Redux Toolkit', 'Redux Thunk', 'Vue3', 'Vuex', 'Next.js', 'HTML5', 'CSS3', 'Sass (SCSS)', 'BEM'],
-  },
-  {
-    category: 'UI Libraries & Frameworks',
-    skills: ['Bootstrap', 'Bulma', 'Material UI', 'Next UI', 'Swiper', 'TailwindCSS', 'TailwindUI'],
-  },
-  {
-    category: 'Backend & APIs',
-    skills: ['Node.js', 'Express.js', 'PostgreSQL', 'REST API', 'axios.js'],
-  },
-  {
-    category: 'Testing & Tools',
-    skills: ['Cypress', 'Jest', 'Git', 'Chrome DevTools', 'NPM', 'Webpack', 'Figma'],
-  },
-  {
-    category: 'Methodologies & Languages',
-    skills: ['Agile', 'Scrum', 'English (Upper-Intermediate)', 'Polish (B1+)', 'Norsk (B1+)'],
   },
 ];
 

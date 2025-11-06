@@ -4,21 +4,18 @@ import { useEffect, useState, useRef } from 'react';
 import Hero from '@/components/Hero';
 import About from '@/components/About';
 import EducationComponent from '@/components/Education';
-import SkillsComponent from '@/components/Skills';
 import ProjectsComponent from '@/components/Projects';
 import Container from '@/components/Container';
 import type { Education } from '@/components/Education';
-import type { TechSkill } from '@/components/Skills';
 import type { Project } from '@/components/Projects';
 import { SidebarNav } from './SidebarNav';
 
 interface PortfolioClientProps {
   projects: Project[];
   education: Education[];
-  techSkills: TechSkill[];
 }
 
-export default function PortfolioClient({ projects, education, techSkills }: PortfolioClientProps) {
+export default function PortfolioClient({ projects, education }: PortfolioClientProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [activeSection, setActiveSection] = useState('about');
   const [typingPhase, setTypingPhase] = useState(0);
@@ -120,16 +117,9 @@ export default function PortfolioClient({ projects, education, techSkills }: Por
             education={education}
           />
 
-          <SkillsComponent
-            sectionRef={(el) => {
-              sectionsRef.current[2] = el;
-            }}
-            techSkills={techSkills}
-          />
-
           <ProjectsComponent
             sectionRef={(el) => {
-              sectionsRef.current[3] = el;
+              sectionsRef.current[2] = el;
             }}
             projects={projects}
           />

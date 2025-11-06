@@ -30,7 +30,7 @@ export default function Projects({ sectionRef, projects }: ProjectsProps) {
       <div className="max-w-6xl mx-auto w-full">
         <div className="mb-12">
           <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-zinc-900 dark:text-zinc-100">
-            <span className="text-zinc-400 dark:text-zinc-600 font-mono text-lg">04.</span>{' '}
+            <span className="text-zinc-400 dark:text-zinc-600 font-mono text-lg">03.</span>{' '}
             Projects
           </h2>
           <p className="text-zinc-600 dark:text-zinc-400">

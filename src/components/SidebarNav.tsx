@@ -10,8 +10,7 @@ interface SidebarNavProps {
 const sections = [
     { id: "about", label: "About", short: "01" },
     { id: "education", label: "Edu", short: "02" },
-    { id: "skills", label: "Skills", short: "03" },
-    { id: "projects", label: "Work", short: "04" },
+    { id: "projects", label: "Work", short: "03" },
 ];
 
 export const SidebarNav: React.FC<SidebarNavProps> = ({
