@@ -45,20 +45,20 @@ export const education: Education[] = [
   {
     period: '2022 - 2026',
     institution: 'Nizhyn Gogol State University',
-    degree: 'Bachelor\'s Degree in Software Engineering',
-    description: 'Currently pursuing a degree in Software Engineering with focus on modern software development practices.',
+    degree: 'Bachelor\'s Degree in Computer Science',
+    description: 'Currently pursuing a degree in Computer Science with focus on modern software development practices.',
   },
   {
     period: '2022 - 2023',
     institution: 'Lublin University of Technology',
-    degree: 'Bachelor\'s Degree in Engineering and Data Analysis',
+    degree: 'Bachelor\'s Degree in Engineering and Data Analysis (Incomplete)',
     description: 'Studied Engineering and Data Analysis, gaining knowledge in data processing and analytical methods.',
   },
   {
     period: '2021',
-    institution: 'Mate academy',
-    degree: 'Fullstack course - freeCodeCamp Frontend Web Development Bootcamp',
-    description: 'Completed comprehensive bootcamp course covering JavaScript, HTML, and CSS fundamentals.',
+    institution: 'Mate Academy',
+    degree: 'Full-time Fullstack Course',
+    description: 'Completed an intensive full-time Full-Stack Development course covering HTML/CSS, JavaScript, React/Redux, Node.js, SQL, databases, algorithms, and web development. The program emphasized practical, hands-on experience with real-world projects and included career support with interview preparation and job placement assistance.',
   },
 ];
 
