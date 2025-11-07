@@ -198,19 +198,172 @@ export default function PortfolioClient({ projects, education }: PortfolioClient
 
   // Scroll listener to detect when scrolling back to hero section (at the very top)
   useEffect(() => {
+    let ticking = false;
+    
     const handleScroll = () => {
-      const scrollY = window.scrollY;
-      
-      // If we're at or near the top of the page, set hero as active
-      // This handles cases where IntersectionObserver might not trigger immediately
-      if (scrollY < 100) {
-        setActiveSection('hero');
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
+          
+          // If we're at or near the top of the page, set hero as active
+          // This handles cases where IntersectionObserver might not trigger immediately
+          if (scrollY < 100) {
+            setActiveSection('hero');
+          }
+          
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Smooth mousewheel section-to-section scrolling
+  useEffect(() => {
+    // Only enable on desktop (not touch devices)
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    if (isTouchDevice) return;
+
+    let isScrolling = false;
+    let lastWheelTime = 0;
+    let wheelDelta = 0;
+    const throttleDelay = 600; // Minimum time between section scrolls (ms)
+    const wheelThreshold = 40; // Accumulated wheel delta needed to trigger scroll
+
+    const getSectionElement = (sectionId: string): HTMLElement | null => {
+      if (sectionId === 'hero') {
+        return heroRef.current;
+      }
+      return document.getElementById(sectionId);
+    };
+
+    const getSectionPosition = (sectionId: string): number => {
+      const element = getSectionElement(sectionId);
+      if (!element) return 0;
+      return element.getBoundingClientRect().top + window.scrollY;
+    };
+
+    const scrollToSectionSmooth = (sectionId: string) => {
+      if (isScrolling) return;
+      
+      const element = getSectionElement(sectionId);
+      if (!element) return;
+
+      isScrolling = true;
+      const targetY = sectionId === 'hero' ? 0 : getSectionPosition(sectionId);
+      
+      window.scrollTo({
+        top: targetY,
+        behavior: 'smooth'
+      });
+
+      // Reset scrolling flag after animation completes
+      setTimeout(() => {
+        isScrolling = false;
+      }, 1000);
+    };
+
+    const handleWheel = (e: WheelEvent) => {
+      // Only handle vertical scrolling
+      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+
+      // Check if we're in the projects section - let it handle its own scrolling
+      const projectsSection = document.getElementById('projects');
+      if (projectsSection) {
+        const projectsRect = projectsSection.getBoundingClientRect();
+        const mouseY = e.clientY;
+        const isInProjectsSection = mouseY >= projectsRect.top && mouseY <= projectsRect.bottom;
+        
+        if (isInProjectsSection && projectsRef.current) {
+          // Let projects section handle its own wheel events
+          return;
+        }
+      }
+
+      // Check if we're in an input/textarea - don't interfere
+      const target = e.target as HTMLElement;
+      if (
+        target instanceof HTMLInputElement ||
+        target instanceof HTMLTextAreaElement ||
+        target.closest('input, textarea')
+      ) {
+        return;
+      }
+
+      const now = Date.now();
+      wheelDelta += Math.abs(e.deltaY);
+
+      // Only process if enough wheel movement accumulated and enough time passed
+      if (wheelDelta >= wheelThreshold && (now - lastWheelTime >= throttleDelay)) {
+        wheelDelta = 0;
+        lastWheelTime = now;
+
+        const sectionIds = ['hero', 'about', 'education', 'projects', 'contact'];
+        let currentIndex = sectionIds.indexOf(activeSection);
+        
+        // If activeSection is not in the list, determine based on scroll position
+        if (currentIndex === -1) {
+          const scrollY = window.scrollY;
+          const viewportHeight = window.innerHeight;
+          
+          // Determine current section based on scroll position
+          const heroPos = getSectionPosition('hero');
+          const aboutPos = getSectionPosition('about');
+          const educationPos = getSectionPosition('education');
+          const projectsPos = getSectionPosition('projects');
+          const contactPos = getSectionPosition('contact');
+
+          if (scrollY < aboutPos - viewportHeight * 0.3) {
+            currentIndex = 0; // hero
+          } else if (scrollY < educationPos - viewportHeight * 0.3) {
+            currentIndex = 1; // about
+          } else if (scrollY < projectsPos - viewportHeight * 0.3) {
+            currentIndex = 2; // education
+          } else if (scrollY < contactPos - viewportHeight * 0.3) {
+            currentIndex = 3; // projects
+          } else {
+            currentIndex = 4; // contact
+          }
+        }
+
+        // Prevent default scrolling
+        e.preventDefault();
+
+        // Determine scroll direction and navigate
+        if (e.deltaY > 0) {
+          // Scrolling down
+          if (currentIndex < sectionIds.length - 1) {
+            scrollToSectionSmooth(sectionIds[currentIndex + 1]);
+          }
+        } else {
+          // Scrolling up
+          if (currentIndex > 0) {
+            scrollToSectionSmooth(sectionIds[currentIndex - 1]);
+          } else {
+            // Scroll to top/hero section
+            scrollToSectionSmooth('hero');
+          }
+        }
+      }
+    };
+
+    // Reset wheel delta after a delay to prevent accumulation over time
+    const resetWheelDelta = setInterval(() => {
+      if (Date.now() - lastWheelTime > 500) {
+        wheelDelta = 0;
+      }
+    }, 200);
+
+    window.addEventListener('wheel', handleWheel, { passive: false });
+
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      clearInterval(resetWheelDelta);
+    };
+  }, [activeSection]);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);

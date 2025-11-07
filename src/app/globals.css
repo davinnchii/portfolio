@@ -367,6 +367,7 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: 6rem; /* Account for fixed navigation */
   scroll-snap-type: y proximity;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
 /* Scroll snap container */
@@ -574,5 +575,18 @@ a, button {
   .scrollbar-hide {
     -webkit-overflow-scrolling: touch;
   }
+}
+
+/* Disable scroll-snap for Swiper containers to prevent conflicts */
+.projects-vertical-swiper,
+.projects-vertical-swiper * {
+  scroll-snap-align: none !important;
+  scroll-snap-stop: normal !important;
+}
+
+/* Optimize Swiper performance */
+.projects-vertical-swiper .swiper-wrapper {
+  will-change: transform;
+  transform: translateZ(0);
 }
 
