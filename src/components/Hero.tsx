@@ -10,9 +10,10 @@ interface HeroProps {
   isVisible: boolean;
   typingPhase: number;
   setTypingPhase: (phase: number) => void;
+  sectionRef?: (el: HTMLElement | null) => void;
 }
 
-export default function Hero({ isVisible, typingPhase, setTypingPhase }: HeroProps) {
+export default function Hero({ isVisible, typingPhase, setTypingPhase, sectionRef }: HeroProps) {
   const t = useTranslations('hero');
   
   useEffect(() => {
@@ -31,7 +32,9 @@ export default function Hero({ isVisible, typingPhase, setTypingPhase }: HeroPro
 
   return (
     <section
-      className={`relative min-h-screen flex flex-col justify-center items-center text-center mb-32 px-4 sm:px-6 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+      ref={sectionRef}
+      id="hero"
+      className={`relative min-h-screen flex flex-col justify-center items-center text-center mb-32 px-4 sm:px-6 snap-start transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}
     >
       <GhostAnimation />

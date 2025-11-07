@@ -18,6 +18,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
         { id: "about", label: t('about'), short: "01" },
         { id: "education", label: t('education'), short: "02" },
         { id: "projects", label: t('projects'), short: "03" },
+        { id: "contact", label: t('contact'), short: "04" },
     ];
     
     return (
@@ -34,7 +35,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
                     >
                         <span className="body-sm font-medium mb-1">{section.short}</span>
                         <span
-                            className={`absolute -left-4 top-0 bottom-0 w-0.5 bg-indigo-500 dark:bg-indigo-400 transition-all duration-300 ${activeSection === section.id ? "opacity-100" : "opacity-0"
+                            className={`absolute -left-4 inset-y-0 w-0.5 bg-white dark:bg-white transition-all duration-300 ${activeSection === section.id ? "opacity-100" : "opacity-0"
                                 }`}
                         />
                         <span className="body-sm uppercase tracking-wider">

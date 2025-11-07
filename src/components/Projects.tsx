@@ -63,13 +63,20 @@ export interface Project {
 interface ProjectsProps {
   sectionRef: (el: HTMLElement | null) => void;
   projects: Project[];
+  scrollToContact?: () => void;
 }
 
 export interface ProjectsRef {
   goToProject: (projectId: number) => void;
+  getCurrentSlideIndex: () => number;
+  getTotalSlides: () => number;
+  isAtEnd: () => boolean;
+  isAtBeginning: () => boolean;
+  slideNext: () => void;
+  slidePrev: () => void;
 }
 
-const Projects = forwardRef<ProjectsRef, ProjectsProps>(({ sectionRef, projects }, ref) => {
+const Projects = forwardRef<ProjectsRef, ProjectsProps>(({ sectionRef, projects, scrollToContact }, ref) => {
   const t = useTranslations('projects');
   const [activeIndex, setActiveIndex] = useState(0);
   const swiperRef = useRef<SwiperType | null>(null);
@@ -78,17 +85,64 @@ const Projects = forwardRef<ProjectsRef, ProjectsProps>(({ sectionRef, projects 
     goToProject: (projectId: number) => {
       const projectIndex = projects.findIndex((p) => p.id === projectId);
       if (projectIndex !== -1 && swiperRef.current) {
-        swiperRef.current.slideToLoop(projectIndex);
+        swiperRef.current.slideTo(projectIndex);
         setActiveIndex(projectIndex);
       }
     },
+    getCurrentSlideIndex: () => {
+      return swiperRef.current ? swiperRef.current.realIndex : activeIndex;
+    },
+    getTotalSlides: () => {
+      return projects.length;
+    },
+    isAtEnd: () => {
+      if (!swiperRef.current) return false;
+      return swiperRef.current.realIndex === projects.length - 1 && swiperRef.current.isEnd;
+    },
+    isAtBeginning: () => {
+      if (!swiperRef.current) return false;
+      return swiperRef.current.realIndex === 0 && swiperRef.current.isBeginning;
+    },
+    slideNext: () => {
+      if (swiperRef.current) {
+        swiperRef.current.slideNext();
+      }
+    },
+    slidePrev: () => {
+      if (swiperRef.current) {
+        swiperRef.current.slidePrev();
+      }
+    },
   }));
+
+  const handleSlideChange = (swiper: SwiperType) => {
+    const realIndex = swiper.realIndex;
+    setActiveIndex(realIndex);
+  };
+
+  const handleNext = () => {
+    if (swiperRef.current) {
+      const currentIndex = swiperRef.current.realIndex;
+      const isLastSlide = currentIndex === projects.length - 1;
+      
+      // Only scroll to contact if we're actually on the last slide
+      if (isLastSlide && swiperRef.current.isEnd) {
+        // We're at the last slide, scroll to contact form
+        if (scrollToContact) {
+          scrollToContact();
+        }
+      } else if (!isLastSlide) {
+        // Not on last slide, go to next slide
+        swiperRef.current.slideNext();
+      }
+    }
+  };
 
   return (
     <section
       ref={sectionRef}
       id="projects"
-      className="mb-32 scroll-mt-24 opacity-0 translate-y-8 transition-all duration-700"
+      className="mb-32 scroll-mt-24 snap-start opacity-0 translate-y-8 transition-all duration-700"
     >
       <div className="max-w-6xl xl:max-w-7xl 2xl:max-w-[90rem] mx-auto w-full px-4">
         <div className="mb-8 sm:mb-12 text-center">
@@ -108,18 +162,21 @@ const Projects = forwardRef<ProjectsRef, ProjectsProps>(({ sectionRef, projects 
               direction="vertical"
               slidesPerView={3}
               centeredSlides
-              loop
               spaceBetween={-80}
-              mousewheel
+              mousewheel={{
+                forceToAxis: true,
+                sensitivity: 1,
+                releaseOnEdges: true,
+              }}
               keyboard={{
-                enabled: true,
+                enabled: false, // Disabled - we handle keyboard navigation in PortfolioClient
               }}
               modules={[Navigation, Pagination, Mousewheel, Keyboard]}
               pagination={{ clickable: true }}
               onSwiper={(swiper) => {
                 swiperRef.current = swiper;
               }}
-              onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
+              onSlideChange={handleSlideChange}
               className="h-full projects-vertical-swiper"
             >
               {projects.map((project, index) => {
@@ -229,7 +286,7 @@ const Projects = forwardRef<ProjectsRef, ProjectsProps>(({ sectionRef, projects 
                 </button>
 
                 <button
-                  onClick={() => swiperRef.current?.slideNext()}
+                  onClick={handleNext}
                   className="w-12 h-12 flex items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-indigo-500 dark:hover:bg-indigo-400 hover:text-white dark:hover:text-[#0a0a0a] hover:border-indigo-500 dark:hover:border-indigo-400 transition-all duration-300 shadow-lg"
                   aria-label="Next project"
                 >

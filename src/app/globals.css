@@ -365,6 +365,20 @@ body::after {
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 6rem; /* Account for fixed navigation */
+  scroll-snap-type: y proximity;
+}
+
+/* Scroll snap container */
+.scroll-snap-y {
+  scroll-snap-type: y proximity;
+  overflow-y: scroll;
+}
+
+/* Scroll snap points */
+.snap-start {
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
 }
 
 /* Custom animations */

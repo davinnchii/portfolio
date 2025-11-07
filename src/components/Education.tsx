@@ -24,7 +24,7 @@ export default function Education({ sectionRef, education, scrollToProject }: Ed
     <section
       ref={sectionRef}
       id="education"
-      className="mb-32 scroll-mt-24 opacity-0 translate-y-8 transition-all duration-700"
+      className="mb-32 scroll-mt-24 snap-start opacity-0 translate-y-8 transition-all duration-700"
     >
       <div className="max-w-5xl mx-auto w-full">
         <h2 className="h2 mb-8 sm:mb-12 text-center text-zinc-900 dark:text-zinc-100">
