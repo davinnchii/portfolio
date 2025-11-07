@@ -109,6 +109,27 @@
   },
   "footer": {
     "designed": "Designet og bygget av deg"
+  },
+  "contact": {
+    "title": "Ta kontakt",
+    "name": "Navn",
+    "namePlaceholder": "Ditt navn",
+    "email": "E-post",
+    "emailPlaceholder": "din.epost@eksempel.no",
+    "message": "Melding",
+    "messagePlaceholder": "Din melding...",
+    "send": "Send melding",
+    "sending": "Sender...",
+    "success": "Takk! Meldingen din har blitt sendt.",
+    "error": "Noe gikk galt. Vennligst prøv igjen.",
+    "validation": {
+      "nameRequired": "Navn er påkrevd",
+      "nameMinLength": "Navn må være minst 2 tegn",
+      "emailRequired": "E-post er påkrevd",
+      "emailInvalid": "Vennligst skriv inn en gyldig e-postadresse",
+      "messageRequired": "Melding er påkrevd",
+      "messageMinLength": "Melding må være minst 10 tegn"
+    }
   }
 }
 

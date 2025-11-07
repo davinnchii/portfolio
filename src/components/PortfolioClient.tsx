@@ -6,6 +6,7 @@ import Hero from '@/components/Hero';
 import About from '@/components/About';
 import EducationComponent from '@/components/Education';
 import ProjectsComponent, { type ProjectsRef } from '@/components/Projects';
+import ContactForm from '@/components/ContactForm';
 import Container from '@/components/Container';
 import type { Education } from '@/components/Education';
 import type { Project } from '@/components/Projects';
@@ -20,6 +21,7 @@ interface PortfolioClientProps {
 export default function PortfolioClient({ projects, education }: PortfolioClientProps) {
   const t = useTranslations('nav');
   const tFooter = useTranslations('footer');
+  const tContact = useTranslations('contact');
   const [isVisible, setIsVisible] = useState(false);
   const [activeSection, setActiveSection] = useState('about');
   const [typingPhase, setTypingPhase] = useState(0);
@@ -146,9 +148,17 @@ export default function PortfolioClient({ projects, education }: PortfolioClient
           />
 
           {/* Footer */}
-          <footer className="text-center text-sm text-zinc-600 dark:text-zinc-400 pt-16 border-t border-zinc-200 dark:border-zinc-800">
-            <p>{tFooter('designed')}</p>
-            <p className="mt-2">© {new Date().getFullYear()}</p>
+          <footer className="pt-16 border-t border-zinc-200 dark:border-zinc-800">
+            <div className="max-w-2xl mx-auto mb-8">
+              <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-6 text-center">
+                {tContact('title')}
+              </h3>
+              <ContactForm />
+            </div>
+            <div className="text-center text-sm text-zinc-600 dark:text-zinc-400 mt-12">
+              <p>{tFooter('designed')}</p>
+              <p className="mt-2">© {new Date().getFullYear()}</p>
+            </div>
           </footer>
         </Container>
       </main>
