@@ -97,17 +97,17 @@ export default function PortfolioClient({ projects, education }: PortfolioClient
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-black/40 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800/50 md:hidden">
         <Container>
           <div className="flex items-center justify-between py-4">
-            <div className="text-xl font-semibold">{t('portfolio')}</div>
+            <div className="h5 font-semibold">{t('portfolio')}</div>
             <div className="flex items-center gap-4">
               <button
                 onClick={() => scrollToSection('about')}
-                className="text-sm hover:text-zinc-600 dark:hover:text-zinc-400 transition-colors duration-200"
+                className="body-sm hover:text-zinc-600 dark:hover:text-zinc-400 transition-colors duration-200"
               >
                 {t('about')}
               </button>
               <button
                 onClick={() => scrollToSection('projects')}
-                className="text-sm hover:text-zinc-600 dark:hover:text-zinc-400 transition-colors duration-200"
+                className="body-sm hover:text-zinc-600 dark:hover:text-zinc-400 transition-colors duration-200"
               >
                 {t('projects')}
               </button>
@@ -148,14 +148,14 @@ export default function PortfolioClient({ projects, education }: PortfolioClient
           />
 
           {/* Footer */}
-          <footer className="pt-16 border-t border-zinc-200 dark:border-zinc-800">
-            <div className="max-w-2xl mx-auto mb-8">
-              <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-6 text-center">
+          <footer className="pt-12 sm:pt-16 border-t border-zinc-200 dark:border-zinc-800">
+            <div className="max-w-2xl mx-auto mb-6 sm:mb-8">
+              <h3 className="h4 text-zinc-900 dark:text-zinc-100 mb-4 sm:mb-6 text-center">
                 {tContact('title')}
               </h3>
               <ContactForm />
             </div>
-            <div className="text-center text-sm text-zinc-600 dark:text-zinc-400 mt-12">
+            <div className="text-center body-sm text-zinc-600 dark:text-zinc-400 mt-8 sm:mt-12">
               <p>{tFooter('designed')}</p>
               <p className="mt-2">© {new Date().getFullYear()}</p>
             </div>

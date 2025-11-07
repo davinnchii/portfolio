@@ -91,12 +91,12 @@ const Projects = forwardRef<ProjectsRef, ProjectsProps>(({ sectionRef, projects 
       className="mb-32 scroll-mt-24 opacity-0 translate-y-8 transition-all duration-700"
     >
       <div className="max-w-6xl xl:max-w-7xl 2xl:max-w-[90rem] mx-auto w-full px-4">
-        <div className="mb-12 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-zinc-900 dark:text-zinc-100">
-            <span className="text-zinc-400 dark:text-zinc-600 font-mono text-lg">03.</span>{' '}
+        <div className="mb-8 sm:mb-12 text-center">
+          <h2 className="h2 mb-3 sm:mb-4 text-zinc-900 dark:text-zinc-100">
+            <span className="text-zinc-400 dark:text-zinc-600 font-mono body-sm">03.</span>{' '}
             {t('title')}
           </h2>
-          <p className="text-zinc-600 dark:text-zinc-400">
+          <p className="body-text text-zinc-600 dark:text-zinc-400">
             {t('subtitle')}
           </p>
         </div>
@@ -163,15 +163,15 @@ const Projects = forwardRef<ProjectsRef, ProjectsProps>(({ sectionRef, projects 
             <div className="text-center lg:text-left transition-all duration-500 w-full flex flex-col h-full justify-between py-4">
               {/* Title Section - Fixed Height */}
               <div className="h-[70px] sm:h-[80px] lg:h-[90px] flex flex-col justify-center flex-shrink-0">
-                <h3 className="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3 relative inline-block">
+                <h3 className="h3 text-zinc-900 dark:text-zinc-100 mb-3 relative inline-block">
                   {projects[activeIndex].title}
-                  <span className="block w-16 h-[2px] bg-indigo-500 dark:bg-indigo-400 mx-auto lg:mx-0 mt-2"></span>
+                  <span className="block w-12 sm:w-16 h-[2px] bg-indigo-500 dark:bg-indigo-400 mx-auto lg:mx-0 mt-2"></span>
                 </h3>
               </div>
               
               {/* Description Section - Flexible but with min-height */}
               <div className="flex-1 min-h-[120px] sm:min-h-[140px] md:min-h-[160px] lg:min-h-[180px] xl:min-h-[200px] max-h-[200px] sm:max-h-[220px] md:max-h-[240px] lg:max-h-[260px] xl:max-h-[280px] overflow-y-auto scrollbar-hide my-2 sm:my-3 lg:my-4">
-                <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed text-base sm:text-lg">
+                <p className="text-zinc-600 dark:text-zinc-400 body-text">
                   {projects[activeIndex].description}
                 </p>
               </div>
@@ -187,7 +187,7 @@ const Projects = forwardRef<ProjectsRef, ProjectsProps>(({ sectionRef, projects 
                         className="flex items-center gap-2 px-3 py-2 bg-zinc-200 dark:bg-zinc-800 rounded-lg text-zinc-700 dark:text-zinc-300 border border-zinc-300 dark:border-zinc-700 hover:bg-zinc-300 dark:hover:bg-zinc-700 transition-colors duration-200"
                       >
                         <Icon className="text-base sm:text-lg flex-shrink-0" />
-                        <span className="text-xs sm:text-sm font-medium">{tech}</span>
+                        <span className="body-sm font-medium">{tech}</span>
                       </div>
                     );
                   })}
@@ -201,7 +201,7 @@ const Projects = forwardRef<ProjectsRef, ProjectsProps>(({ sectionRef, projects 
                     href={projects[activeIndex].link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm font-medium text-zinc-900 dark:text-zinc-100 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors duration-200"
+                    className="body-sm font-medium text-zinc-900 dark:text-zinc-100 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors duration-200"
                   >
                     {t('viewProject')}
                   </a>
@@ -211,7 +211,7 @@ const Projects = forwardRef<ProjectsRef, ProjectsProps>(({ sectionRef, projects 
                     href={projects[activeIndex].github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm font-medium text-zinc-900 dark:text-zinc-100 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors duration-200"
+                    className="body-sm font-medium text-zinc-900 dark:text-zinc-100 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors duration-200"
                   >
                     {t('github')}
                   </a>

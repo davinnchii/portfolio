@@ -32,12 +32,12 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
                                 : "text-zinc-400 dark:text-zinc-600 hover:text-zinc-600 dark:hover:text-zinc-400"
                             }`}
                     >
-                        <span className="text-xs font-medium mb-1">{section.short}</span>
+                        <span className="body-sm font-medium mb-1">{section.short}</span>
                         <span
                             className={`absolute -left-4 top-0 bottom-0 w-0.5 bg-indigo-500 dark:bg-indigo-400 transition-all duration-300 ${activeSection === section.id ? "opacity-100" : "opacity-0"
                                 }`}
                         />
-                        <span className="text-[10px] uppercase tracking-wider">
+                        <span className="body-sm uppercase tracking-wider">
                             {section.label}
                         </span>
                     </button>
