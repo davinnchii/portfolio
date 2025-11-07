@@ -80,7 +80,7 @@ export default function Hero({ isVisible, typingPhase, setTypingPhase }: HeroPro
           </p>
         )}
       </div>
-      <div className="relative z-10 mt-8">
+      <div className="relative z-10 mt-8 flex flex-col items-center">
         <a
           href="#projects"
           className="inline-block px-6 sm:px-8 py-2.5 sm:py-3 border border-indigo-500 dark:border-indigo-400 rounded body-sm font-medium hover:bg-indigo-500 hover:text-white dark:hover:bg-indigo-400 dark:hover:text-[#0a0a0a] transition-all duration-300"
