@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useRef, useImperativeHandle, forwardRef, useEffect } from 'react';
+import { useState, useRef, useImperativeHandle, forwardRef } from 'react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
+import { Navigation, Pagination, Keyboard } from 'swiper/modules';
 import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
 import {
   SiShopify,
@@ -121,72 +121,6 @@ const Projects = forwardRef<ProjectsRef, ProjectsProps>(({ sectionRef, projects,
     setActiveIndex(realIndex);
   };
 
-  // Expand mousewheel capture area for desktop
-  useEffect(() => {
-    if (!sectionElementRef.current) return;
-
-    // Only enable on desktop (not touch devices)
-    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    if (isTouchDevice) return;
-
-    let lastWheelTime = 0;
-    const throttleDelay = 100; // Throttle wheel events
-
-    const handleWheel = (e: WheelEvent) => {
-      // Only handle vertical scrolling
-      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
-
-      // Throttle wheel events
-      const now = Date.now();
-      if (now - lastWheelTime < throttleDelay) return;
-      lastWheelTime = now;
-
-      // Check if mouse is within the projects section area
-      const rect = sectionElementRef.current?.getBoundingClientRect();
-      if (!rect) return;
-
-      const mouseY = e.clientY;
-      const isInSection = mouseY >= rect.top && mouseY <= rect.bottom;
-
-      if (isInSection && swiperRef.current) {
-        // Prevent default page scrolling
-        e.preventDefault();
-        
-        // Forward the wheel event to Swiper by directly calling slideNext/slidePrev
-        const swiper = swiperRef.current;
-        const currentIndex = swiper.realIndex;
-        const totalSlides = projects.length;
-        const isLastSlide = currentIndex === totalSlides - 1;
-        const isFirstSlide = currentIndex === 0;
-
-        // Handle scrolling at boundaries
-        if (e.deltaY > 0) {
-          // Scrolling down
-          if (isLastSlide && scrollToContact) {
-            scrollToContact();
-          } else if (!isLastSlide) {
-            swiper.slideNext();
-          }
-        } else if (e.deltaY < 0) {
-          // Scrolling up
-          if (isFirstSlide) {
-            // Let page scroll handle going to education section
-            return;
-          } else {
-            swiper.slidePrev();
-          }
-        }
-      }
-    };
-
-    // Add listener to the entire section
-    const section = sectionElementRef.current;
-    section.addEventListener('wheel', handleWheel, { passive: false });
-
-    return () => {
-      section.removeEventListener('wheel', handleWheel);
-    };
-  }, [projects.length, scrollToContact]);
 
   const handleNext = () => {
     if (swiperRef.current) {
@@ -215,7 +149,7 @@ const Projects = forwardRef<ProjectsRef, ProjectsProps>(({ sectionRef, projects,
         }
       }}
       id="projects"
-      className="mb-32 scroll-mt-24 snap-start opacity-0 translate-y-8 transition-all duration-700"
+      className="mb-32 scroll-mt-24 snap-center opacity-0 translate-y-8 transition-all duration-700"
     >
       <div className="max-w-6xl xl:max-w-7xl 2xl:max-w-[90rem] mx-auto w-full px-4">
         <div className="mb-8 sm:mb-12 text-center">
@@ -236,17 +170,10 @@ const Projects = forwardRef<ProjectsRef, ProjectsProps>(({ sectionRef, projects,
               slidesPerView={3}
               centeredSlides
               spaceBetween={-80}
-              mousewheel={{
-                forceToAxis: true,
-                sensitivity: 0.8,
-                releaseOnEdges: true,
-                thresholdDelta: 30,
-                thresholdTime: 200,
-              }}
               keyboard={{
                 enabled: false, // Disabled - we handle keyboard navigation in PortfolioClient
               }}
-              modules={[Navigation, Pagination, Mousewheel, Keyboard]}
+              modules={[Navigation, Pagination, Keyboard]}
               pagination={{ clickable: true }}
               onSwiper={(swiper) => {
                 swiperRef.current = swiper;
