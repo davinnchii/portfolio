@@ -33,7 +33,7 @@ export default function LanguageSwitcher() {
       {isOpen && (
         <>
           <div 
-            className="fixed inset-0 z-10" 
+            className="fixed inset-0 z-10 cursor-pointer" 
             onClick={() => setIsOpen(false)}
           />
           <div className="absolute right-0 mt-2 w-20 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-md shadow-lg z-20">

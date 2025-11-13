@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Keyboard } from 'swiper/modules';
-import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
+import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import {
   SiShopify,
   SiJavascript,
@@ -79,6 +79,10 @@ export interface ProjectsRef {
 const Projects = forwardRef<ProjectsRef, ProjectsProps>(({ sectionRef, projects, scrollToContact }, ref) => {
   const t = useTranslations('projects');
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isAtBeginning, setIsAtBeginning] = useState(true);
+  const [isAtEnd, setIsAtEnd] = useState(false);
+  const [prevButtonAnimating, setPrevButtonAnimating] = useState(false);
+  const [nextButtonAnimating, setNextButtonAnimating] = useState(false);
   const swiperRef = useRef<SwiperType | null>(null);
   const sectionElementRef = useRef<HTMLElement | null>(null);
 
@@ -119,24 +123,24 @@ const Projects = forwardRef<ProjectsRef, ProjectsProps>(({ sectionRef, projects,
   const handleSlideChange = (swiper: SwiperType) => {
     const realIndex = swiper.realIndex;
     setActiveIndex(realIndex);
+    setIsAtBeginning(swiper.isBeginning);
+    setIsAtEnd(swiper.isEnd);
   };
 
 
-  const handleNext = () => {
+  const handlePrev = () => {
+    setPrevButtonAnimating(true);
+    setTimeout(() => setPrevButtonAnimating(false), 300);
     if (swiperRef.current) {
-      const currentIndex = swiperRef.current.realIndex;
-      const isLastSlide = currentIndex === projects.length - 1;
-      
-      // Only scroll to contact if we're actually on the last slide
-      if (isLastSlide && swiperRef.current.isEnd) {
-        // We're at the last slide, scroll to contact form
-        if (scrollToContact) {
-          scrollToContact();
-        }
-      } else if (!isLastSlide) {
-        // Not on last slide, go to next slide
-        swiperRef.current.slideNext();
-      }
+      swiperRef.current.slidePrev();
+    }
+  };
+
+  const handleNext = () => {
+    setNextButtonAnimating(true);
+    setTimeout(() => setNextButtonAnimating(false), 300);
+    if (swiperRef.current && !swiperRef.current.isEnd) {
+      swiperRef.current.slideNext();
     }
   };
 
@@ -177,6 +181,8 @@ const Projects = forwardRef<ProjectsRef, ProjectsProps>(({ sectionRef, projects,
               pagination={{ clickable: true }}
               onSwiper={(swiper) => {
                 swiperRef.current = swiper;
+                setIsAtBeginning(swiper.isBeginning);
+                setIsAtEnd(swiper.isEnd);
               }}
               onSlideChange={handleSlideChange}
               className="h-full projects-vertical-swiper"
@@ -215,6 +221,33 @@ const Projects = forwardRef<ProjectsRef, ProjectsProps>(({ sectionRef, projects,
                 );
               })}
             </Swiper>
+            
+            {/* Custom Navigation Buttons - Positioned next to swiper */}
+            <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-full lg:translate-x-8 xl:translate-x-12 2xl:translate-x-16 flex flex-col gap-3 z-30 hidden lg:flex">
+              <button
+                onClick={handlePrev}
+                disabled={isAtBeginning}
+                className={`group relative flex items-center justify-center w-14 h-14 rounded-xl bg-zinc-200 dark:bg-zinc-800 border-2 border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 shadow-md hover:bg-gradient-to-br hover:from-indigo-500 hover:to-purple-600 dark:hover:from-indigo-600 dark:hover:to-purple-700 hover:border-indigo-500 dark:hover:border-indigo-400 hover:text-white hover:shadow-xl hover:shadow-indigo-500/50 active:bg-gradient-to-br active:from-indigo-600 active:to-purple-700 dark:active:from-indigo-700 dark:active:to-purple-800 active:border-indigo-600 dark:active:border-indigo-500 active:shadow-2xl active:shadow-indigo-600/60 hover:scale-105 active:scale-95 transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-zinc-200 disabled:hover:dark:bg-zinc-800 disabled:hover:border-zinc-300 disabled:hover:dark:border-zinc-700 disabled:hover:text-zinc-700 disabled:hover:dark:text-zinc-300 disabled:hover:shadow-md ${
+                  prevButtonAnimating ? 'arrow-click-animation' : ''
+                }`}
+                aria-label="Previous project"
+              >
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-white/30 to-transparent opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity duration-300"></div>
+                <FaArrowUp className="text-lg relative z-10 transition-colors duration-300" />
+              </button>
+
+              <button
+                onClick={handleNext}
+                disabled={isAtEnd}
+                className={`group relative flex items-center justify-center w-14 h-14 rounded-xl bg-zinc-200 dark:bg-zinc-800 border-2 border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 shadow-md hover:bg-gradient-to-br hover:from-indigo-500 hover:to-purple-600 dark:hover:from-indigo-600 dark:hover:to-purple-700 hover:border-indigo-500 dark:hover:border-indigo-400 hover:text-white hover:shadow-xl hover:shadow-indigo-500/50 active:bg-gradient-to-br active:from-indigo-600 active:to-purple-700 dark:active:from-indigo-700 dark:active:to-purple-800 active:border-indigo-600 dark:active:border-indigo-500 active:shadow-2xl active:shadow-indigo-600/60 hover:scale-105 active:scale-95 transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-zinc-200 disabled:hover:dark:bg-zinc-800 disabled:hover:border-zinc-300 disabled:hover:dark:border-zinc-700 disabled:hover:text-zinc-700 disabled:hover:dark:text-zinc-300 disabled:hover:shadow-md ${
+                  nextButtonAnimating ? 'arrow-click-animation' : ''
+                }`}
+                aria-label="Next project"
+              >
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-white/30 to-transparent opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity duration-300"></div>
+                <FaArrowDown className="text-lg relative z-10 transition-colors duration-300" />
+              </button>
+            </div>
           </div>
 
           {/* Info Section */}
@@ -277,22 +310,30 @@ const Projects = forwardRef<ProjectsRef, ProjectsProps>(({ sectionRef, projects,
                 )}
               </div>
 
-              {/* Custom Navigation Buttons - Fixed Height */}
-              <div className="flex items-center gap-4 h-[52px] justify-center lg:justify-start flex-shrink-0">
+              {/* Mobile Navigation Buttons */}
+              <div className="flex flex-row items-center gap-3 justify-center lg:hidden flex-shrink-0 mt-4">
                 <button
-                  onClick={() => swiperRef.current?.slidePrev()}
-                  className="w-12 h-12 flex items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-indigo-500 dark:hover:bg-indigo-400 hover:text-white dark:hover:text-[#0a0a0a] hover:border-indigo-500 dark:hover:border-indigo-400 transition-all duration-300 shadow-lg"
+                  onClick={handlePrev}
+                  disabled={isAtBeginning}
+                  className={`group relative flex items-center justify-center w-14 h-14 rounded-xl bg-zinc-200 dark:bg-zinc-800 border-2 border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 shadow-md hover:bg-gradient-to-br hover:from-indigo-500 hover:to-purple-600 dark:hover:from-indigo-600 dark:hover:to-purple-700 hover:border-indigo-500 dark:hover:border-indigo-400 hover:text-white hover:shadow-xl hover:shadow-indigo-500/50 active:bg-gradient-to-br active:from-indigo-600 active:to-purple-700 dark:active:from-indigo-700 dark:active:to-purple-800 active:border-indigo-600 dark:active:border-indigo-500 active:shadow-2xl active:shadow-indigo-600/60 hover:scale-105 active:scale-95 transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-zinc-200 disabled:hover:dark:bg-zinc-800 disabled:hover:border-zinc-300 disabled:hover:dark:border-zinc-700 disabled:hover:text-zinc-700 disabled:hover:dark:text-zinc-300 disabled:hover:shadow-md ${
+                    prevButtonAnimating ? 'arrow-click-animation' : ''
+                  }`}
                   aria-label="Previous project"
                 >
-                  <FaChevronUp className="text-sm" />
+                  <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-white/30 to-transparent opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity duration-300"></div>
+                  <FaArrowUp className="text-lg relative z-10 transition-colors duration-300" />
                 </button>
 
                 <button
                   onClick={handleNext}
-                  className="w-12 h-12 flex items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-indigo-500 dark:hover:bg-indigo-400 hover:text-white dark:hover:text-[#0a0a0a] hover:border-indigo-500 dark:hover:border-indigo-400 transition-all duration-300 shadow-lg"
+                  disabled={isAtEnd}
+                  className={`group relative flex items-center justify-center w-14 h-14 rounded-xl bg-zinc-200 dark:bg-zinc-800 border-2 border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 shadow-md hover:bg-gradient-to-br hover:from-indigo-500 hover:to-purple-600 dark:hover:from-indigo-600 dark:hover:to-purple-700 hover:border-indigo-500 dark:hover:border-indigo-400 hover:text-white hover:shadow-xl hover:shadow-indigo-500/50 active:bg-gradient-to-br active:from-indigo-600 active:to-purple-700 dark:active:from-indigo-700 dark:active:to-purple-800 active:border-indigo-600 dark:active:border-indigo-500 active:shadow-2xl active:shadow-indigo-600/60 hover:scale-105 active:scale-95 transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-zinc-200 disabled:hover:dark:bg-zinc-800 disabled:hover:border-zinc-300 disabled:hover:dark:border-zinc-700 disabled:hover:text-zinc-700 disabled:hover:dark:text-zinc-300 disabled:hover:shadow-md ${
+                    nextButtonAnimating ? 'arrow-click-animation' : ''
+                  }`}
                   aria-label="Next project"
                 >
-                  <FaChevronDown className="text-sm" />
+                  <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-white/30 to-transparent opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity duration-300"></div>
+                  <FaArrowDown className="text-lg relative z-10 transition-colors duration-300" />
                 </button>
               </div>
             </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useTranslations } from 'next-intl';
 import Hero from '@/components/Hero';
 import About from '@/components/About';
@@ -22,25 +22,17 @@ export default function PortfolioClient({ projects, education }: PortfolioClient
   const t = useTranslations('nav');
   const tFooter = useTranslations('footer');
   const tContact = useTranslations('contact');
-  const [isVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
   const [typingPhase, setTypingPhase] = useState(0);
   const heroRef = useRef<HTMLElement | null>(null);
+  const heroObserverRef = useRef<IntersectionObserver | null>(null);
   const sectionsRef = useRef<(HTMLElement | null)[]>([]);
   const projectsRef = useRef<ProjectsRef>(null);
 
-  const scrollToSection = useCallback((sectionId: string) => {
-    if (sectionId === 'hero') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  }, []);
-
   useEffect(() => {
+    setIsVisible(true);
+
     // Intersection Observer for scroll animations and active section tracking
     const observer = new IntersectionObserver(
       (entries) => {
@@ -60,20 +52,52 @@ export default function PortfolioClient({ projects, education }: PortfolioClient
       { threshold: 0.3, rootMargin: '0px 0px -200px 0px' }
     );
 
-    // Observe all sections including hero
-    const allSections = [
-      heroRef.current,
-      ...sectionsRef.current
-    ].filter(Boolean) as HTMLElement[];
-
-    allSections.forEach((section) => {
-      observer.observe(section);
+    sectionsRef.current.forEach((section) => {
+      if (section) {
+        observer.observe(section);
+      }
     });
 
     return () => {
-      allSections.forEach((section) => {
-        observer.unobserve(section);
+      sectionsRef.current.forEach((section) => {
+        if (section) {
+          observer.unobserve(section);
+        }
       });
+    };
+  }, []);
+
+  // Observe hero section once ref is set
+  useEffect(() => {
+    // Use setTimeout to ensure ref is set after render
+    const timeoutId = setTimeout(() => {
+      if (!heroRef.current) return;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const id = entry.target.getAttribute('id');
+              if (id === 'hero') {
+                setActiveSection('hero');
+              }
+            }
+          });
+        },
+        { threshold: 0.3, rootMargin: '0px 0px -200px 0px' }
+      );
+
+      heroObserverRef.current = observer;
+      const heroElement = heroRef.current;
+      observer.observe(heroElement);
+    }, 0);
+
+    return () => {
+      clearTimeout(timeoutId);
+      if (heroObserverRef.current && heroRef.current) {
+        heroObserverRef.current.unobserve(heroRef.current);
+        heroObserverRef.current = null;
+      }
     };
   }, []);
 
@@ -137,22 +161,31 @@ export default function PortfolioClient({ projects, education }: PortfolioClient
         // For other keys (Home, End), still handle them
       }
 
-      // Normal section-to-section navigation
+      // Normal section-to-section navigation for non-projects sections
       if (e.key === 'ArrowDown' || e.key === 'PageDown') {
         e.preventDefault();
         if (currentIndex < sectionIds.length - 1) {
-          scrollToSection(sectionIds[currentIndex + 1]);
+          if (sectionIds[currentIndex + 1] === 'hero') {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          } else {
+            scrollToSection(sectionIds[currentIndex + 1]);
+          }
         }
       } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
         e.preventDefault();
         if (currentIndex > 0) {
-          scrollToSection(sectionIds[currentIndex - 1]);
+          if (sectionIds[currentIndex - 1] === 'hero') {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          } else {
+            scrollToSection(sectionIds[currentIndex - 1]);
+          }
         } else {
-          scrollToSection('hero');
+          // Scroll to top/hero section
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         }
       } else if (e.key === 'Home') {
         e.preventDefault();
-        scrollToSection('hero');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       } else if (e.key === 'End') {
         e.preventDefault();
         scrollToSection('contact');
@@ -161,7 +194,183 @@ export default function PortfolioClient({ projects, education }: PortfolioClient
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [activeSection, scrollToSection, projectsRef]);
+  }, [activeSection]);
+
+  // Scroll listener to detect when scrolling back to hero section (at the very top)
+  useEffect(() => {
+    let ticking = false;
+    
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
+          
+          // If we're at or near the top of the page, set hero as active
+          // This handles cases where IntersectionObserver might not trigger immediately
+          if (scrollY < 100) {
+            setActiveSection('hero');
+          }
+          
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Smooth mousewheel section-to-section scrolling
+  useEffect(() => {
+    // Only enable on desktop (not touch devices)
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    if (isTouchDevice) return;
+
+    let isScrolling = false;
+    let lastWheelTime = 0;
+    let wheelDelta = 0;
+    const throttleDelay = 600; // Minimum time between section scrolls (ms)
+    const wheelThreshold = 40; // Accumulated wheel delta needed to trigger scroll
+
+    const getSectionElement = (sectionId: string): HTMLElement | null => {
+      if (sectionId === 'hero') {
+        return heroRef.current;
+      }
+      return document.getElementById(sectionId);
+    };
+
+    const getSectionPosition = (sectionId: string): number => {
+      const element = getSectionElement(sectionId);
+      if (!element) return 0;
+      return element.getBoundingClientRect().top + window.scrollY;
+    };
+
+    const scrollToSectionSmooth = (sectionId: string) => {
+      if (isScrolling) return;
+      
+      const element = getSectionElement(sectionId);
+      if (!element) return;
+
+      isScrolling = true;
+      const targetY = sectionId === 'hero' ? 0 : getSectionPosition(sectionId);
+      
+      window.scrollTo({
+        top: targetY,
+        behavior: 'smooth'
+      });
+
+      // Reset scrolling flag after animation completes
+      setTimeout(() => {
+        isScrolling = false;
+      }, 1000);
+    };
+
+    const handleWheel = (e: WheelEvent) => {
+      // Only handle vertical scrolling
+      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+
+      // Check if we're in the projects section - let it handle its own scrolling
+      const projectsSection = document.getElementById('projects');
+      if (projectsSection) {
+        const projectsRect = projectsSection.getBoundingClientRect();
+        const mouseY = e.clientY;
+        const isInProjectsSection = mouseY >= projectsRect.top && mouseY <= projectsRect.bottom;
+        
+        if (isInProjectsSection && projectsRef.current) {
+          // Let projects section handle its own wheel events
+          return;
+        }
+      }
+
+      // Check if we're in an input/textarea - don't interfere
+      const target = e.target as HTMLElement;
+      if (
+        target instanceof HTMLInputElement ||
+        target instanceof HTMLTextAreaElement ||
+        target.closest('input, textarea')
+      ) {
+        return;
+      }
+
+      const now = Date.now();
+      wheelDelta += Math.abs(e.deltaY);
+
+      // Only process if enough wheel movement accumulated and enough time passed
+      if (wheelDelta >= wheelThreshold && (now - lastWheelTime >= throttleDelay)) {
+        wheelDelta = 0;
+        lastWheelTime = now;
+
+        const sectionIds = ['hero', 'about', 'education', 'projects', 'contact'];
+        let currentIndex = sectionIds.indexOf(activeSection);
+        
+        // If activeSection is not in the list, determine based on scroll position
+        if (currentIndex === -1) {
+          const scrollY = window.scrollY;
+          const viewportHeight = window.innerHeight;
+          
+          // Determine current section based on scroll position
+          const heroPos = getSectionPosition('hero');
+          const aboutPos = getSectionPosition('about');
+          const educationPos = getSectionPosition('education');
+          const projectsPos = getSectionPosition('projects');
+          const contactPos = getSectionPosition('contact');
+
+          if (scrollY < aboutPos - viewportHeight * 0.3) {
+            currentIndex = 0; // hero
+          } else if (scrollY < educationPos - viewportHeight * 0.3) {
+            currentIndex = 1; // about
+          } else if (scrollY < projectsPos - viewportHeight * 0.3) {
+            currentIndex = 2; // education
+          } else if (scrollY < contactPos - viewportHeight * 0.3) {
+            currentIndex = 3; // projects
+          } else {
+            currentIndex = 4; // contact
+          }
+        }
+
+        // Prevent default scrolling
+        e.preventDefault();
+
+        // Determine scroll direction and navigate
+        if (e.deltaY > 0) {
+          // Scrolling down
+          if (currentIndex < sectionIds.length - 1) {
+            scrollToSectionSmooth(sectionIds[currentIndex + 1]);
+          }
+        } else {
+          // Scrolling up
+          if (currentIndex > 0) {
+            scrollToSectionSmooth(sectionIds[currentIndex - 1]);
+          } else {
+            // Scroll to top/hero section
+            scrollToSectionSmooth('hero');
+          }
+        }
+      }
+    };
+
+    // Reset wheel delta after a delay to prevent accumulation over time
+    const resetWheelDelta = setInterval(() => {
+      if (Date.now() - lastWheelTime > 500) {
+        wheelDelta = 0;
+      }
+    }, 200);
+
+    window.addEventListener('wheel', handleWheel, { passive: false });
+
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      clearInterval(resetWheelDelta);
+    };
+  }, [activeSection]);
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   const scrollToProject = (projectId: number) => {
     scrollToSection('projects');
@@ -185,20 +394,30 @@ export default function PortfolioClient({ projects, education }: PortfolioClient
       </div>
 
       {/* Mobile Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-black/40 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800/50 md:hidden">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-xl border-b border-zinc-200/80 dark:border-zinc-800/80 md:hidden shadow-sm">
         <Container>
           <div className="flex items-center justify-between py-4">
-            <div className="h5 font-semibold">{t('portfolio')}</div>
-            <div className="flex items-center gap-4">
+            <div className="h5 font-semibold bg-gradient-to-r from-zinc-900 to-zinc-700 dark:from-zinc-100 dark:to-zinc-300 bg-clip-text text-transparent">
+              {t('portfolio')}
+            </div>
+            <div className="flex items-center gap-3">
               <button
                 onClick={() => scrollToSection('about')}
-                className="body-sm hover:text-zinc-600 dark:hover:text-zinc-400 transition-colors duration-200"
+                className={`body-sm font-medium px-3 py-1.5 rounded-lg transition-all duration-300 ${
+                  activeSection === 'about'
+                    ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/30'
+                    : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900'
+                }`}
               >
                 {t('about')}
               </button>
               <button
                 onClick={() => scrollToSection('projects')}
-                className="body-sm hover:text-zinc-600 dark:hover:text-zinc-400 transition-colors duration-200"
+                className={`body-sm font-medium px-3 py-1.5 rounded-lg transition-all duration-300 ${
+                  activeSection === 'projects'
+                    ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/30'
+                    : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900'
+                }`}
               >
                 {t('projects')}
               </button>
@@ -208,7 +427,7 @@ export default function PortfolioClient({ projects, education }: PortfolioClient
         </Container>
       </nav>
 
-      <main className="md:ml-20 pt-24 pb-20">
+      <main className="md:ml-24 pt-24 pb-20">
         <Container>
           <Hero
             isVisible={isVisible}
@@ -248,7 +467,7 @@ export default function PortfolioClient({ projects, education }: PortfolioClient
             ref={(el) => {
               sectionsRef.current[3] = el;
             }}
-            className="pt-12 sm:pt-16 border-t border-zinc-200 dark:border-zinc-800 snap-center opacity-0 translate-y-8 transition-all duration-700"
+            className="pt-12 sm:pt-16 border-t border-zinc-200 dark:border-zinc-800 snap-start opacity-0 translate-y-8 transition-all duration-700"
           >
             <div className="max-w-2xl mx-auto mb-6 sm:mb-8">
               <h3 className="h4 text-zinc-900 dark:text-zinc-100 mb-4 sm:mb-6 text-center">
