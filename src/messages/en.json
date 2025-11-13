@@ -14,7 +14,55 @@
     "skills": "I have a proven ability to create new projects from scratch using modern technologies, such as",
     "techStack": "React + TypeScript with TailwindCSS",
     "maintenance": ", as well as maintain and refactor existing software by integrating new technologies and architectural improvements.",
-    "recentTech": "Here are a few technologies I've been working with recently:"
+    "recentTech": "Here are a few technologies I've been working with recently:",
+    "experienceButton": "My Experience in Norway",
+    "experienceModal": {
+      "title": "My Journey in Norway",
+      "timeline": {
+        "title": "Timeline",
+        "april2024": {
+          "date": "April 2024",
+          "event": "Arrived in Norway, began fixing documents"
+        },
+        "september2024": {
+          "date": "September 2024",
+          "event": "Started interacting with society and learning Norwegian"
+        },
+        "october2024": {
+          "date": "October 2024",
+          "event": "Began working in restaurants (started as praksisplass from school, then got a job)"
+        },
+        "january2025": {
+          "date": "January 2025",
+          "event": "Reached B1 level of Norwegian"
+        },
+        "summer2025": {
+          "date": "Summer 2025",
+          "event": "Got 2 extra jobs, worked combined, getting more familiar with culture, environment and language"
+        },
+        "september2025": {
+          "date": "September 2025",
+          "event": "Got a vikar job as teacher-assistant in KIE (voksenopplæring) in Skien kommune"
+        },
+        "now": {
+          "date": "Now",
+          "event": "Very passionate to progress and develop in the IT industry in Norway"
+        }
+      },
+      "workExperience": {
+        "title": "Work Experience Outside IT",
+        "description": "I've been working in restaurants since October 2024, starting as a praksisplass from school, then getting a job there. I've been working in parallel while studying at university in Ukraine. In the summer, I took on 2 additional jobs and worked combined, getting more familiar with the culture, environment, and language. In September, I got a vikar job as a teacher-assistant in KIE (voksenopplæring) in Skien kommune."
+      },
+      "adaptation": {
+        "title": "Key Achievements",
+        "achievements": [
+          "Learned to speak Norwegian freely in a short-term period (reached B1 level in 3 months, and now it's even better)",
+          "Managed to find jobs in multiple places in a short period",
+          "Successfully adapted to the Norwegian work environment"
+        ]
+      },
+      "close": "Close"
+    }
   },
   "education": {
     "title": "Education",
@@ -28,7 +76,7 @@
         "projectId": 6
       },
       {
-        "period": "2022 - 2023",
+        "period": "2022 - not finished",
         "institution": "Lublin University of Technology",
         "degree": "Bachelor's Degree in Engineering and Data Analysis (Incomplete)",
         "description": "Studied Engineering and Data Analysis, gaining knowledge in data processing and analytical methods."

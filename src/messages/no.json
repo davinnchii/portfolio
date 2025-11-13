@@ -14,7 +14,55 @@
     "skills": "Jeg har en dokumentert evne til å lage nye prosjekter fra grunnen av ved bruk av moderne teknologier, som",
     "techStack": "React + TypeScript med TailwindCSS",
     "maintenance": ", samt vedlikeholde og refaktorere eksisterende programvare ved å integrere nye teknologier og arkitektoniske forbedringer.",
-    "recentTech": "Her er noen få teknologier jeg har jobbet med nylig:"
+    "recentTech": "Her er noen få teknologier jeg har jobbet med nylig:",
+    "experienceButton": "Min erfaring i Norge",
+    "experienceModal": {
+      "title": "Min reise i Norge",
+      "timeline": {
+        "title": "Tidslinje",
+        "april2024": {
+          "date": "April 2024",
+          "event": "Kom til Norge, begynte å fikse dokumenter"
+        },
+        "september2024": {
+          "date": "September 2024",
+          "event": "Begynte å interagere med samfunnet og lære norsk"
+        },
+        "october2024": {
+          "date": "Oktober 2024",
+          "event": "Begynte å jobbe i restaurantsbransjen (startet som praksisplass fra skolen, deretter fikk jobb)"
+        },
+        "january2025": {
+          "date": "Januar 2025",
+          "event": "Nådde B1-nivå i norsk"
+        },
+        "summer2025": {
+          "date": "Sommer 2025",
+          "event": "Fikk 2 ekstra jobber, jobbet kombinert, ble mer kjent med kulturen, miljøet og språket"
+        },
+        "september2025": {
+          "date": "September 2025",
+          "event": "Fikk vikarjobb som lærerassistent i KIE (voksenopplæring) i Skien kommune"
+        },
+        "now": {
+          "date": "Nå",
+          "event": "Brenner for å utvikle meg videre innen IT og bygge en fremtid i Norge."
+        }
+      },
+      "workExperience": {
+        "title": "Arbeidserfaring utenfor IT",
+        "description": "Jeg har jobbet i restaurantsbransjen siden oktober 2024, startet som praksisplass fra skolen, deretter fikk jeg jobb der. Jeg har jobbet parallelt mens jeg studerte ved universitetet i Ukraina. Om sommeren tok jeg 2 ekstra jobber og jobbet kombinert, og ble mer kjent med kulturen, miljøet og språket. I september fikk jeg en vikarjobb som lærerassistent i KIE (voksenopplæring) i Skien kommune."
+      },
+      "adaptation": {
+        "title": "Nøkkelprestasjoner",
+        "achievements": [
+          "Lærte å snakke norsk fritt på kort tid (nådde B1-nivå på 3 måneder, og nå er det enda bedre)",
+          "Klarte å finne jobber på flere steder på kort tid",
+          "Tilpasset meg vellykket til det norske arbeidsmiljøet"
+        ]
+      },
+      "close": "Lukk"
+    }
   },
   "education": {
     "title": "Utdanning",
@@ -28,7 +76,7 @@
         "projectId": 6
       },
       {
-        "period": "2022 - 2023",
+        "period": "2022 - ikke avsluttet",
         "institution": "Lublin University of Technology",
         "degree": "Bachelor i ingeniørfag og dataanalyse (Ufullstendig)",
         "description": "Studerte ingeniørfag og dataanalyse, og tilegnet seg kunnskap om databehandling og analytiske metoder."
@@ -105,11 +153,39 @@
     "about": "Om",
     "education": "Utd",
     "projects": "Arb",
+    "testimonials": "Ref",
     "contact": "Kontakt",
     "portfolio": "Portefølje"
   },
   "footer": {
     "designed": "Designet og bygget av deg"
+  },
+  "testimonials": {
+    "title": "Referanser",
+    "subtitle": "Hva andre sier om meg",
+    "items": [
+      {
+        "id": 1,
+        "name": "Navn på person",
+        "role": "Rolle/Stilling",
+        "company": "Selskap",
+        "feedback": "Her kan du legge inn feedback fra personen. Dette er et eksempel på hvordan en referanse kan se ut."
+      },
+      {
+        "id": 2,
+        "name": "Navn på person",
+        "role": "Rolle/Stilling",
+        "company": "Selskap",
+        "feedback": "Her kan du legge inn feedback fra personen. Dette er et eksempel på hvordan en referanse kan se ut."
+      },
+      {
+        "id": 3,
+        "name": "Navn på person",
+        "role": "Rolle/Stilling",
+        "company": "Selskap",
+        "feedback": "Her kan du legge inn feedback fra personen. Dette er et eksempel på hvordan en referanse kan se ut."
+      }
+    ]
   },
   "contact": {
     "title": "Ta kontakt",

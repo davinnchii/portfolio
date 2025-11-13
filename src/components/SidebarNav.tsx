@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface SidebarNavProps {
     activeSection: string;
@@ -13,13 +13,24 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
     scrollToSection,
 }) => {
     const t = useTranslations('nav');
+    const locale = useLocale();
     
-    const sections = [
+    const baseSections = [
         { id: "about", label: t('about'), short: "01" },
         { id: "education", label: t('education'), short: "02" },
         { id: "projects", label: t('projects'), short: "03" },
-        { id: "contact", label: t('contact'), short: "04" },
     ];
+    
+    // Add testimonials only for Norwegian locale
+    const testimonialsSection = locale === 'no' 
+        ? [{ id: "testimonials", label: t('testimonials'), short: "04" }]
+        : [];
+    
+    const contactSection = [
+        { id: "contact", label: t('contact'), short: locale === 'no' ? "05" : "04" },
+    ];
+    
+    const sections = [...baseSections, ...testimonialsSection, ...contactSection];
     
     return (
         <aside className="fixed left-0 top-0 bottom-0 w-20 md:w-24 z-50 hidden md:flex flex-col items-center justify-center">

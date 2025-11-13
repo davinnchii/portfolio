@@ -1,27 +1,31 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import Hero from '@/components/Hero';
 import About from '@/components/About';
 import EducationComponent from '@/components/Education';
 import ProjectsComponent, { type ProjectsRef } from '@/components/Projects';
 import ContactForm from '@/components/ContactForm';
 import Container from '@/components/Container';
+import TestimonialsComponent from '@/components/Testimonials';
 import type { Education } from '@/components/Education';
 import type { Project } from '@/components/Projects';
+import type { Testimonial } from '@/components/Testimonials';
 import { SidebarNav } from './SidebarNav';
 import LanguageSwitcher from './LanguageSwitcher';
 
 interface PortfolioClientProps {
   projects: Project[];
   education: Education[];
+  testimonials?: Testimonial[];
 }
 
-export default function PortfolioClient({ projects, education }: PortfolioClientProps) {
+export default function PortfolioClient({ projects, education, testimonials }: PortfolioClientProps) {
   const t = useTranslations('nav');
   const tFooter = useTranslations('footer');
   const tContact = useTranslations('contact');
+  const locale = useLocale();
   const [isVisible, setIsVisible] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
   const [typingPhase, setTypingPhase] = useState(0);
@@ -29,6 +33,8 @@ export default function PortfolioClient({ projects, education }: PortfolioClient
   const heroObserverRef = useRef<IntersectionObserver | null>(null);
   const sectionsRef = useRef<(HTMLElement | null)[]>([]);
   const projectsRef = useRef<ProjectsRef>(null);
+  
+  const hasTestimonials = locale === 'no' && testimonials && testimonials.length > 0;
 
   useEffect(() => {
     setIsVisible(true);
@@ -112,7 +118,9 @@ export default function PortfolioClient({ projects, education }: PortfolioClient
         return;
       }
 
-      const sectionIds = ['hero', 'about', 'education', 'projects', 'contact'];
+      const sectionIds = hasTestimonials 
+        ? ['hero', 'about', 'education', 'projects', 'testimonials', 'contact']
+        : ['hero', 'about', 'education', 'projects', 'contact'];
       let currentIndex = sectionIds.indexOf(activeSection);
       
       // If activeSection is not in the list, determine based on scroll position
@@ -301,7 +309,9 @@ export default function PortfolioClient({ projects, education }: PortfolioClient
         wheelDelta = 0;
         lastWheelTime = now;
 
-        const sectionIds = ['hero', 'about', 'education', 'projects', 'contact'];
+        const sectionIds = hasTestimonials 
+          ? ['hero', 'about', 'education', 'projects', 'testimonials', 'contact']
+          : ['hero', 'about', 'education', 'projects', 'contact'];
         let currentIndex = sectionIds.indexOf(activeSection);
         
         // If activeSection is not in the list, determine based on scroll position
@@ -314,6 +324,7 @@ export default function PortfolioClient({ projects, education }: PortfolioClient
           const aboutPos = getSectionPosition('about');
           const educationPos = getSectionPosition('education');
           const projectsPos = getSectionPosition('projects');
+          const testimonialsPos = hasTestimonials ? getSectionPosition('testimonials') : null;
           const contactPos = getSectionPosition('contact');
 
           if (scrollY < aboutPos - viewportHeight * 0.3) {
@@ -322,10 +333,14 @@ export default function PortfolioClient({ projects, education }: PortfolioClient
             currentIndex = 1; // about
           } else if (scrollY < projectsPos - viewportHeight * 0.3) {
             currentIndex = 2; // education
-          } else if (scrollY < contactPos - viewportHeight * 0.3) {
+          } else if (hasTestimonials && testimonialsPos && scrollY < testimonialsPos - viewportHeight * 0.3) {
+            currentIndex = 3; // projects
+          } else if (hasTestimonials && testimonialsPos && scrollY < contactPos - viewportHeight * 0.3) {
+            currentIndex = 4; // testimonials
+          } else if (!hasTestimonials && scrollY < contactPos - viewportHeight * 0.3) {
             currentIndex = 3; // projects
           } else {
-            currentIndex = 4; // contact
+            currentIndex = hasTestimonials ? 5 : 4; // contact
           }
         }
 
@@ -421,6 +436,18 @@ export default function PortfolioClient({ projects, education }: PortfolioClient
               >
                 {t('projects')}
               </button>
+              {hasTestimonials && (
+                <button
+                  onClick={() => scrollToSection('testimonials')}
+                  className={`body-sm font-medium px-3 py-1.5 rounded-lg transition-all duration-300 ${
+                    activeSection === 'testimonials'
+                      ? 'text-accent-primary bg-accent-light'
+                      : 'text-text-tertiary hover:text-text-primary hover:bg-accent-light'
+                  }`}
+                >
+                  {t('testimonials')}
+                </button>
+              )}
               <LanguageSwitcher />
             </div>
           </div>
@@ -458,14 +485,23 @@ export default function PortfolioClient({ projects, education }: PortfolioClient
               sectionsRef.current[2] = el;
             }}
             projects={projects}
-            scrollToContact={() => scrollToSection('contact')}
+            scrollToContact={() => scrollToSection(hasTestimonials ? 'testimonials' : 'contact')}
           />
+
+          {hasTestimonials && (
+            <TestimonialsComponent
+              sectionRef={(el) => {
+                sectionsRef.current[3] = el;
+              }}
+              testimonials={testimonials!}
+            />
+          )}
 
           {/* Footer */}
           <footer
             id="contact"
             ref={(el) => {
-              sectionsRef.current[3] = el;
+              sectionsRef.current[hasTestimonials ? 4 : 3] = el;
             }}
             className="pt-12 sm:pt-16 border-t border-border-primary snap-start opacity-0 translate-y-8 transition-all duration-700"
           >

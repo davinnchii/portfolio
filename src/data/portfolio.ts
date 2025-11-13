@@ -65,7 +65,7 @@ export const education: Education[] = [
     projectId: 6, // Tour Agency Management System
   },
   {
-    period: '2022 - 2023',
+    period: '2022 - not finished',
     institution: 'Lublin University of Technology',
     degree: 'Bachelor\'s Degree in Engineering and Data Analysis (Incomplete)',
     description: 'Studied Engineering and Data Analysis, gaining knowledge in data processing and analytical methods.',
