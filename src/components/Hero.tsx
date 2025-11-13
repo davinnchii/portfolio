@@ -34,7 +34,7 @@ export default function Hero({ isVisible, typingPhase, setTypingPhase, sectionRe
     <section
       ref={sectionRef}
       id="hero"
-      className={`relative min-h-screen flex flex-col justify-center items-center text-center mb-32 px-4 sm:px-6 snap-start transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+      className={`relative min-h-screen snap-center flex flex-col justify-center items-center text-center mb-32 px-4 sm:px-6 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}
     >
       <GhostAnimation />

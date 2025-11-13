@@ -370,17 +370,7 @@ html {
   -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
-/* Scroll snap container */
-.scroll-snap-y {
-  scroll-snap-type: y proximity;
-  overflow-y: scroll;
-}
-
-/* Scroll snap points */
-.snap-start {
-  scroll-snap-align: start;
-  scroll-snap-stop: normal;
-}
+/* Scroll snap is handled by Tailwind classes (snap-center) on sections */
 
 /* Custom animations */
 @keyframes fade-in {
