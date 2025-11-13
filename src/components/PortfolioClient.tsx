@@ -496,28 +496,30 @@ export default function PortfolioClient({ projects, education, testimonials }: P
               testimonials={testimonials!}
             />
           )}
-
-          {/* Footer */}
-          <footer
-            id="contact"
-            ref={(el) => {
-              sectionsRef.current[hasTestimonials ? 4 : 3] = el;
-            }}
-            className="pt-12 sm:pt-16 border-t border-border-primary snap-start opacity-0 translate-y-8 transition-all duration-700"
-          >
-            <div className="max-w-2xl mx-auto mb-6 sm:mb-8">
-              <h3 className="h4 text-text-primary mb-4 sm:mb-6 text-center">
-                {tContact('title')}
-              </h3>
-              <ContactForm />
-            </div>
-            <div className="text-center body-sm text-text-tertiary mt-8 sm:mt-12">
-              <p>{tFooter('designed')}</p>
-              <p className="mt-2">© {new Date().getFullYear()}</p>
-            </div>
-          </footer>
         </Container>
       </main>
+
+      {/* Footer */}
+      <footer
+        id="contact"
+        ref={(el) => {
+          sectionsRef.current[hasTestimonials ? 4 : 3] = el;
+        }}
+        className="md:ml-24 pt-12 sm:pt-16 snap-start opacity-0 translate-y-8 transition-all duration-700"
+      >
+        <Container>
+          <div className="max-w-2xl mx-auto mb-6 sm:mb-8">
+            <h3 className="h4 text-text-primary mb-4 sm:mb-6 text-center">
+              {tContact('title')}
+            </h3>
+            <ContactForm />
+          </div>
+          <div className="text-center body-sm text-text-tertiary mt-8 sm:mt-12">
+            <p>{tFooter('designed')}</p>
+            <p className="mt-2">© {new Date().getFullYear()}</p>
+          </div>
+        </Container>
+      </footer>
     </div>
   );
 }
