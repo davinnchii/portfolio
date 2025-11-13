@@ -24,7 +24,7 @@ export default function LanguageSwitcher() {
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="px-3 py-1.5 body-sm font-medium text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-zinc-100 border border-zinc-300 dark:border-zinc-700 rounded-md hover:border-indigo-500 dark:hover:border-indigo-400 transition-colors duration-200"
+        className="px-3 py-1.5 body-sm font-medium text-text-secondary hover:text-text-primary bg-accent-light border border-border-accent rounded-md hover:border-accent-primary transition-colors duration-200"
         aria-label="Switch language"
       >
         {languages.find(lang => lang.code === locale)?.label || 'EN'}
@@ -36,15 +36,15 @@ export default function LanguageSwitcher() {
             className="fixed inset-0 z-10 cursor-pointer" 
             onClick={() => setIsOpen(false)}
           />
-          <div className="absolute right-0 mt-2 w-20 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-md shadow-lg z-20">
+          <div className="absolute right-0 mt-2 w-20 bg-bg-card border border-border-primary rounded-md shadow-lg z-20">
             {languages.map((lang) => (
               <button
                 key={lang.code}
                 onClick={() => switchLocale(lang.code)}
                 className={`w-full text-left px-3 py-2 body-sm transition-colors duration-200 ${
                   locale === lang.code
-                    ? 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 font-medium'
-                    : 'text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800'
+                    ? 'bg-accent-light text-accent-primary font-medium'
+                    : 'text-text-secondary hover:bg-accent-light'
                 } ${lang.code === 'en' ? 'rounded-t-md' : 'rounded-b-md'}`}
               >
                 {lang.label}

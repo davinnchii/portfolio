@@ -23,8 +23,8 @@ export default function Toast({ message, type, onClose, duration = 4000 }: Toast
 
   const isSuccess = type === 'success';
   const bgColor = isSuccess
-    ? 'bg-green-500 dark:bg-green-600'
-    : 'bg-red-500 dark:bg-red-600';
+    ? 'bg-green-500'
+    : 'bg-red-500';
   const iconColor = isSuccess
     ? 'text-green-100'
     : 'text-red-100';

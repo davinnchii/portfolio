@@ -119,7 +119,7 @@ export default function GhostAnimation() {
       {/* Desktop: Right side with cursor-reactive animation */}
       <div
         ref={containerRef}
-        className="absolute inset-0 pointer-events-none overflow-hidden from-zinc-50 via-zinc-100 to-zinc-200 dark:from-zinc-900 dark:via-zinc-950 dark:to-black animate-bg-pan hidden lg:block"
+        className="absolute inset-0 pointer-events-none overflow-hidden hidden lg:block"
       >
         <div
           ref={isDesktop ? ghostRef : null}

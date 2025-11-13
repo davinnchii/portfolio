@@ -44,6 +44,10 @@ export default function LaptopAnimation() {
         >
           <defs>
             <linearGradient id="screenGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#ffffff" />
+              <stop offset="100%" stopColor="#f4f4f5" />
+            </linearGradient>
+            <linearGradient id="screenGradientDark" x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" stopColor="#1e1e1e" />
               <stop offset="100%" stopColor="#0a0a0a" />
             </linearGradient>
@@ -63,8 +67,7 @@ export default function LaptopAnimation() {
             width="360"
             height="20"
             rx="4"
-            fill="#2a2a2a"
-            className="dark:fill-zinc-800"
+            className="fill-zinc-200 dark:fill-zinc-800"
             filter="url(#laptopGlow)"
           />
 
@@ -75,8 +78,7 @@ export default function LaptopAnimation() {
             width="340"
             height="60"
             rx="4"
-            fill="#1a1a1a"
-            className="dark:fill-zinc-900"
+            className="fill-zinc-100 dark:fill-zinc-900"
           />
 
           {/* Trackpad */}
@@ -85,8 +87,7 @@ export default function LaptopAnimation() {
             cy="230"
             rx="40"
             ry="15"
-            fill="#0f0f0f"
-            className="dark:fill-zinc-950"
+            className="fill-zinc-300 dark:fill-zinc-950"
           />
 
           {/* Screen bezel */}
@@ -96,8 +97,7 @@ export default function LaptopAnimation() {
             width="400"
             height="200"
             rx="8"
-            fill="#2a2a2a"
-            className="dark:fill-zinc-800"
+            className="fill-zinc-200 dark:fill-zinc-800"
             filter="url(#laptopGlow)"
           />
 
@@ -108,14 +108,14 @@ export default function LaptopAnimation() {
             width="370"
             height="170"
             rx="4"
-            fill="#000000"
+            className="fill-white dark:fill-zinc-900"
           />
 
           {/* Screen content area */}
           <foreignObject x="25" y="25" width="350" height="150">
             <div
-              className="w-full h-full bg-gradient-to-b from-[#1e1e1e] to-[#0a0a0a] p-2 md:p-4 font-mono text-[8px] md:text-[10px] lg:text-xs overflow-hidden"
-              style={{ fontFamily: 'var(--font-geist-mono), monospace' }}
+              className="w-full h-full bg-gradient-to-b from-white to-zinc-100 dark:from-zinc-900 dark:to-zinc-950 p-2 md:p-4 font-mono text-[8px] md:text-[10px] lg:text-xs overflow-hidden"
+              style={{ fontFamily: 'var(--font-mono), monospace' }}
             >
               <div className="flex items-center gap-1 md:gap-2 mb-2 md:mb-3">
                 <div className="flex gap-0.5 md:gap-1.5">
@@ -123,25 +123,25 @@ export default function LaptopAnimation() {
                   <div className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-yellow-500"></div>
                   <div className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-green-500"></div>
                 </div>
-                <span className="text-zinc-500 text-[8px] md:text-[10px]">portfolio.ts</span>
+                <span className="text-zinc-400 dark:text-zinc-500 text-[8px] md:text-[10px]">portfolio.ts</span>
               </div>
               <div className="space-y-0.5 md:space-y-1">
                 {codeLines.map((line, index) => (
                   <div
                     key={index}
-                    className="text-green-400"
+                    className="text-emerald-600 dark:text-green-400"
                     style={{
                       animation: 'code-fade-in 0.4s ease-out',
                       animationFillMode: 'both',
                     }}
                   >
-                    <span className="text-zinc-500 mr-2">{index + 1}</span>
+                    <span className="text-zinc-400 dark:text-zinc-500 mr-2">{index + 1}</span>
                     {line}
                   </div>
                 ))}
                 {codeLines.length > 0 && codeLines.length < codeSnippets.length && (
-                  <div className="text-green-400">
-                    <span className="text-zinc-500 mr-2">{codeLines.length + 1}</span>
+                  <div className="text-emerald-600 dark:text-green-400">
+                    <span className="text-zinc-400 dark:text-zinc-500 mr-2">{codeLines.length + 1}</span>
                     <span className="animate-pulse">|</span>
                   </div>
                 )}

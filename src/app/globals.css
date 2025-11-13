@@ -1,27 +1,88 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+/* Tailwind Theme Variables - Light Theme (default) */
+@theme {
+  /* Background Colors - use bg-* utilities */
+  --color-bg-primary: #fefbf6;
+  --color-bg-secondary: #f5f0ff;
+  --color-bg-tertiary: #f0f4ff;
+  --color-bg-quaternary: #fef7f0;
+  --color-bg-card: #ffffff;
+  --color-bg-nav: rgba(254, 251, 246, 0.9);
+  --color-bg-sidebar: rgba(254, 251, 246, 0.8);
+  --color-bg-overlay: rgba(255, 255, 255, 0.3);
+  
+  /* Text Colors - use text-* utilities */
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #4a4a4a;
+  --color-text-tertiary: #6a6a6a;
+  --color-text-muted: #9a9a9a;
+  --color-text-inverse: #ededed;
+  
+  /* Border Colors - use border-* utilities */
+  --color-border-primary: rgba(229, 231, 235, 0.5);
+  --color-border-secondary: rgba(203, 213, 225, 0.5);
+  --color-border-accent: rgba(99, 102, 241, 0.3);
+  
+  /* Accent Colors - use bg-*, text-*, border-* utilities */
+  --color-accent-primary: #6366f1;
+  --color-accent-secondary: #8b5cf6;
+  --color-accent-hover: #4f46e5;
+  --color-accent-active: #4338ca;
+  --color-accent-light: rgba(99, 102, 241, 0.1);
+  --color-accent-medium: rgba(99, 102, 241, 0.3);
+  --color-accent-dark: rgba(99, 102, 241, 0.5);
+  
+  /* Fonts */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
+/* CSS Variables for dark mode (override theme variables) */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Background Colors */
+    --color-bg-primary: #0a0a0a;
+    --color-bg-secondary: #1a1a2e;
+    --color-bg-tertiary: #0f0f1e;
+    --color-bg-quaternary: #0a0a0a;
+    --color-bg-card: #18181b;
+    --color-bg-nav: rgba(9, 9, 11, 0.9);
+    --color-bg-sidebar: rgba(9, 9, 11, 0.8);
+    --color-bg-overlay: rgba(0, 0, 0, 0.3);
+    
+    /* Text Colors */
+    --color-text-primary: #ededed;
+    --color-text-secondary: #d4d4d8;
+    --color-text-tertiary: #9f9fa9;
+    --color-text-muted: #52525b;
+    --color-text-inverse: #1a1a1a;
+    
+    /* Border Colors */
+    --color-border-primary: rgba(63, 63, 70, 0.8);
+    --color-border-secondary: rgba(39, 39, 42, 0.8);
+    --color-border-accent: rgba(129, 140, 248, 0.5);
+    
+    /* Accent Colors - Indigo/Purple */
+    --color-accent-primary: #818cf8;
+    --color-accent-secondary: #a78bfa;
+    --color-accent-hover: #6366f1;
+    --color-accent-active: #4f46e5;
+    --color-accent-light: #1d214626;
+    --color-accent-medium: rgba(81, 89, 165, 0.349);
+    --color-accent-dark: rgba(129, 140, 248, 0.5);
   }
 }
 
+/* Legacy CSS variables for compatibility with existing code */
+:root {
+  --background: var(--color-bg-primary);
+  --foreground: var(--color-text-primary);
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
   position: relative;
   overflow-x: hidden;
@@ -308,7 +369,7 @@ p, .body-text {
   letter-spacing: 0.05em;
 }
 
-/* Dark gradient background with animated elements */
+/* Light theme background with colorful light tones */
 body::before {
   content: '';
   position: fixed;
@@ -317,16 +378,16 @@ body::before {
   width: 100%;
   height: 100%;
   background: 
-    radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 40% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
-    linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0f0f1e 100%);
+    radial-gradient(circle at 20% 50%, var(--color-accent-medium) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.12) 0%, transparent 50%),
+    radial-gradient(circle at 40% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 60% 10%, rgba(236, 72, 153, 0.06) 0%, transparent 40%),
+    linear-gradient(135deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 30%, var(--color-bg-tertiary) 60%, var(--color-bg-quaternary) 100%);
   background-size: 100% 100%;
   z-index: -1;
   animation: gradient-shift 20s ease infinite;
 }
 
-/* Animated gradient overlay for subtle movement */
 body::after {
   content: '';
   position: fixed;
@@ -335,11 +396,30 @@ body::after {
   width: 100%;
   height: 100%;
   background: 
-    radial-gradient(circle at 60% 30%, rgba(99, 102, 241, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 30% 70%, rgba(139, 92, 246, 0.08) 0%, transparent 40%);
+    radial-gradient(circle at 60% 30%, var(--color-accent-light) 0%, transparent 40%),
+    radial-gradient(circle at 30% 70%, rgba(139, 92, 246, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 90% 50%, rgba(236, 72, 153, 0.05) 0%, transparent 40%);
   z-index: -1;
   animation: gradient-pulse 15s ease-in-out infinite;
-  opacity: 0.6;
+  opacity: 0.5;
+}
+
+/* Dark theme adjustments */
+@media (prefers-color-scheme: dark) {
+  body::before {
+    background: 
+      radial-gradient(circle at 20% 50%, var(--color-accent-medium) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 40% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+      linear-gradient(135deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 50%, var(--color-bg-tertiary) 100%);
+  }
+  
+  body::after {
+    background: 
+      radial-gradient(circle at 60% 30%, var(--color-accent-light) 0%, transparent 40%),
+      radial-gradient(circle at 30% 70%, rgba(139, 92, 246, 0.08) 0%, transparent 40%);
+    opacity: 0.6;
+  }
 }
 
 @keyframes gradient-shift {
@@ -481,7 +561,7 @@ a, button {
 .projects-swiper .swiper-pagination-bullet-custom {
   width: 10px;
   height: 10px;
-  background: rgb(161 161 170);
+  background: var(--color-text-muted);
   opacity: 0.5;
   margin: 0 4px;
   transition: all 0.3s ease;
@@ -489,18 +569,10 @@ a, button {
 }
 
 .projects-swiper .swiper-pagination-bullet-active-custom {
-  background: rgb(99 102 241);
+  background: var(--color-accent-primary);
   opacity: 1;
   width: 24px;
   border-radius: 5px;
-}
-
-.dark .projects-swiper .swiper-pagination-bullet-custom {
-  background: rgb(63 63 70);
-}
-
-.dark .projects-swiper .swiper-pagination-bullet-active-custom {
-  background: rgb(129 140 248);
 }
 
 @media (max-width: 640px) {
@@ -529,26 +601,18 @@ a, button {
 .projects-vertical-swiper .swiper-pagination-bullet {
   width: 8px;
   height: 8px;
-  background: rgb(161 161 170);
+  background: var(--color-text-muted);
   opacity: 0.5;
   margin: 0;
   transition: all 0.3s ease;
 }
 
 .projects-vertical-swiper .swiper-pagination-bullet-active {
-  background: rgb(99 102 241);
+  background: var(--color-accent-primary);
   opacity: 1;
   width: 8px;
   height: 24px;
   border-radius: 4px;
-}
-
-.dark .projects-vertical-swiper .swiper-pagination-bullet {
-  background: rgb(63 63 70);
-}
-
-.dark .projects-vertical-swiper .swiper-pagination-bullet-active {
-  background: rgb(129 140 248);
 }
 
 /* Hide scrollbar for mobile devices, especially iPhone */

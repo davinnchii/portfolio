@@ -29,13 +29,13 @@ export default function FormTextarea({
 }: FormTextareaProps) {
   return (
     <div className="relative group">
-      <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 rounded-xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      <div className="absolute inset-0 bg-accent-medium rounded-xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
       <div className="relative pt-6">
         <label
           htmlFor={id}
           className={`absolute left-0 pointer-events-none ${
             isActive
-              ? '-top-1 body-sm text-indigo-500 dark:text-indigo-400 font-medium opacity-0 translate-y-2 animate-[fadeInUp_0.3s_ease-out_0.1s_forwards]'
+              ? '-top-1 body-sm text-accent-primary font-medium opacity-0 translate-y-2 animate-[fadeInUp_0.3s_ease-out_0.1s_forwards]'
               : 'sr-only'
           }`}
         >
@@ -50,16 +50,16 @@ export default function FormTextarea({
             onFocus={onFocus}
             onBlur={onBlur}
             rows={rows}
-            className={`w-full px-4 py-3 sm:py-4 bg-zinc-50 dark:bg-zinc-900/50 border-2 rounded-xl text-zinc-900 dark:text-zinc-100 focus:outline-none focus:bg-white dark:focus:bg-zinc-900 transition-all duration-300 resize-none shadow-sm hover:shadow-md focus:placeholder:opacity-0 body-text ${
+            className={`w-full px-4 py-3 sm:py-4 bg-accent-light border-2 rounded-xl text-text-primary focus:outline-none focus:bg-accent-light transition-all duration-300 resize-none shadow-sm hover:shadow-md focus:placeholder:opacity-0 body-text ${
               error
-                ? 'border-red-500 dark:border-red-400 focus:border-red-500 dark:focus:border-red-400'
-                : 'border-zinc-200 dark:border-zinc-800 focus:border-indigo-500 dark:focus:border-indigo-400'
+                ? 'border-red-500 focus:border-red-500'
+                : 'border-border-accent focus:border-accent-primary'
             }`}
             placeholder={placeholder}
           />
         </div>
         {error && (
-          <p className="mt-2 body-sm text-red-500 dark:text-red-400 animate-[fadeInUp_0.3s_ease-out]">
+          <p className="mt-2 body-sm text-red-500 animate-[fadeInUp_0.3s_ease-out]">
             {error}
           </p>
         )}

@@ -197,8 +197,8 @@ export default function ContactForm() {
           disabled={isSubmitting || hasErrors() || !isFormValid()}
           className="relative w-full group overflow-hidden disabled:opacity-60 disabled:cursor-not-allowed disabled:grayscale"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 disabled:group-hover:opacity-0"></div>
-          <div className="relative flex items-center justify-center gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-indigo-500 dark:bg-indigo-400 text-white dark:text-[#0a0a0a] font-semibold rounded-xl transition-all duration-300 shadow-lg hover:bg-indigo-600 dark:hover:bg-indigo-300 hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] disabled:hover:bg-indigo-500 disabled:dark:hover:bg-indigo-400 disabled:hover:shadow-lg disabled:hover:scale-100 disabled:active:scale-100 body-text">
+          <div className="absolute inset-0 bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-hover opacity-0 group-hover:opacity-100 transition-opacity duration-300 disabled:group-hover:opacity-0"></div>
+          <div className="relative flex items-center justify-center gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-accent-primary text-text-inverse font-semibold rounded-xl transition-all duration-300 shadow-lg hover:bg-accent-hover hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] disabled:hover:bg-accent-primary disabled:hover:shadow-lg disabled:hover:scale-100 disabled:active:scale-100 body-text">
             {isSubmitting ? (
               <>
                 <FaSpinner className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />

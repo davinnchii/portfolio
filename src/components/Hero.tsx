@@ -43,7 +43,7 @@ export default function Hero({ isVisible, typingPhase, setTypingPhase, sectionRe
       
       <div className="relative z-10 mb-4 max-w-4xl w-full">
         {typingPhase >= 0 && (
-          <p className="body-lg text-zinc-600 dark:text-zinc-400 mb-2">
+          <p className="body-lg text-text-tertiary mb-2">
             <TypingText
               key="intro-0"
               text={t('greeting')}
@@ -53,7 +53,7 @@ export default function Hero({ isVisible, typingPhase, setTypingPhase, sectionRe
           </p>
         )}
         {typingPhase >= 1 && (
-          <h1 className="h1 mb-4 bg-gradient-to-r from-zinc-900 to-zinc-600 dark:from-zinc-100 dark:to-zinc-400 bg-clip-text text-transparent">
+          <h1 className="h1 mb-4 bg-gradient-to-r from-text-primary to-text-secondary bg-clip-text text-transparent">
             <TypingText
               key="name-1"
               text={t('name')}
@@ -63,7 +63,7 @@ export default function Hero({ isVisible, typingPhase, setTypingPhase, sectionRe
           </h1>
         )}
         {typingPhase >= 2 && (
-          <h2 className="h2 mb-6 text-zinc-700 dark:text-zinc-300">
+          <h2 className="h2 mb-6 text-text-secondary">
             <TypingText
               key="tagline-2"
               text={t('tagline')}
@@ -73,7 +73,7 @@ export default function Hero({ isVisible, typingPhase, setTypingPhase, sectionRe
           </h2>
         )}
         {typingPhase >= 3 && (
-          <p className="body-lg text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto">
+          <p className="body-lg text-text-tertiary max-w-2xl mx-auto">
             <TypingText
               key="description-3"
               text={t('description')}
@@ -86,7 +86,7 @@ export default function Hero({ isVisible, typingPhase, setTypingPhase, sectionRe
       <div className="relative z-10 mt-8 flex flex-col items-center">
         <a
           href="#projects"
-          className="inline-block px-6 sm:px-8 py-2.5 sm:py-3 border border-indigo-500 dark:border-indigo-400 rounded body-sm font-medium hover:bg-indigo-500 hover:text-white dark:hover:bg-indigo-400 dark:hover:text-[#0a0a0a] transition-all duration-300"
+          className="inline-block px-6 sm:px-8 py-2.5 sm:py-3 border border-accent-primary rounded body-sm font-medium hover:bg-accent-primary hover:text-text-inverse transition-all duration-300"
         >
           {t('cta')}
         </a>

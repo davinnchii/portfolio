@@ -381,7 +381,7 @@ export default function PortfolioClient({ projects, education }: PortfolioClient
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-transparent text-[#0a0a0a] dark:text-[#ededed] scroll-smooth">
+    <div className="min-h-screen bg-transparent text-text-primary scroll-smooth">
       {/* Sidebar Navigation - Brittany Style */}
       <SidebarNav
         activeSection={activeSection}
@@ -394,10 +394,10 @@ export default function PortfolioClient({ projects, education }: PortfolioClient
       </div>
 
       {/* Mobile Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-xl border-b border-zinc-200/80 dark:border-zinc-800/80 md:hidden shadow-sm">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-bg-nav backdrop-blur-xl border-b border-border-accent md:hidden shadow-sm">
         <Container>
           <div className="flex items-center justify-between py-4">
-            <div className="h5 font-semibold bg-gradient-to-r from-zinc-900 to-zinc-700 dark:from-zinc-100 dark:to-zinc-300 bg-clip-text text-transparent">
+            <div className="h5 font-semibold bg-gradient-to-r from-text-primary to-text-secondary bg-clip-text text-transparent">
               {t('portfolio')}
             </div>
             <div className="flex items-center gap-3">
@@ -405,8 +405,8 @@ export default function PortfolioClient({ projects, education }: PortfolioClient
                 onClick={() => scrollToSection('about')}
                 className={`body-sm font-medium px-3 py-1.5 rounded-lg transition-all duration-300 ${
                   activeSection === 'about'
-                    ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/30'
-                    : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900'
+                    ? 'text-accent-primary bg-accent-light'
+                    : 'text-text-tertiary hover:text-text-primary hover:bg-accent-light'
                 }`}
               >
                 {t('about')}
@@ -415,8 +415,8 @@ export default function PortfolioClient({ projects, education }: PortfolioClient
                 onClick={() => scrollToSection('projects')}
                 className={`body-sm font-medium px-3 py-1.5 rounded-lg transition-all duration-300 ${
                   activeSection === 'projects'
-                    ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/30'
-                    : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900'
+                    ? 'text-accent-primary bg-accent-light'
+                    : 'text-text-tertiary hover:text-text-primary hover:bg-accent-light'
                 }`}
               >
                 {t('projects')}
@@ -467,15 +467,15 @@ export default function PortfolioClient({ projects, education }: PortfolioClient
             ref={(el) => {
               sectionsRef.current[3] = el;
             }}
-            className="pt-12 sm:pt-16 border-t border-zinc-200 dark:border-zinc-800 snap-start opacity-0 translate-y-8 transition-all duration-700"
+            className="pt-12 sm:pt-16 border-t border-border-primary snap-start opacity-0 translate-y-8 transition-all duration-700"
           >
             <div className="max-w-2xl mx-auto mb-6 sm:mb-8">
-              <h3 className="h4 text-zinc-900 dark:text-zinc-100 mb-4 sm:mb-6 text-center">
+              <h3 className="h4 text-text-primary mb-4 sm:mb-6 text-center">
                 {tContact('title')}
               </h3>
               <ContactForm />
             </div>
-            <div className="text-center body-sm text-zinc-600 dark:text-zinc-400 mt-8 sm:mt-12">
+            <div className="text-center body-sm text-text-tertiary mt-8 sm:mt-12">
               <p>{tFooter('designed')}</p>
               <p className="mt-2">© {new Date().getFullYear()}</p>
             </div>
