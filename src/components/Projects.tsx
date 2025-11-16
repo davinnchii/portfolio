@@ -153,7 +153,7 @@ const Projects = forwardRef<ProjectsRef, ProjectsProps>(({ sectionRef, projects,
         }
       }}
       id="projects"
-      className="mb-32 scroll-mt-24 snap-center opacity-0 translate-y-8 transition-all duration-700"
+      className="min-h-screen flex flex-col justify-center scroll-mt-24 snap-end xl:snap-center opacity-0 translate-y-8 transition-all duration-700"
     >
       <div className="max-w-6xl xl:max-w-7xl 2xl:max-w-[90rem] mx-auto w-full px-4">
         <div className="mb-8 sm:mb-12 text-center">
@@ -166,19 +166,191 @@ const Projects = forwardRef<ProjectsRef, ProjectsProps>(({ sectionRef, projects,
           </p>
         </div>
 
-        <div className="flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-20 xl:gap-24 2xl:gap-28">
+        {/* Mobile Layout - Simple Card Stack */}
+        <div className="md:hidden space-y-6">
+          {projects.map((project, index) => {
+            return (
+              <div
+                key={project.id}
+                className="bg-accent-light border border-border-accent rounded-xl p-6 shadow-lg hover:border-accent-primary hover:shadow-xl transition-all duration-300"
+              >
+                {/* Project Image */}
+                <div className="relative w-full h-48 mb-6 rounded-lg overflow-hidden">
+                  {project.image ? (
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      className="object-cover rounded-lg"
+                      sizes="100vw"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-accent-light flex items-center justify-center rounded-lg">
+                      <span className="text-text-muted text-sm">
+                        No preview available
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Project Title */}
+                <h3 className="h3 text-text-primary mb-3 break-words leading-tight">
+                  {project.title}
+                </h3>
+
+                {/* Project Description */}
+                <p className="body-text text-text-tertiary mb-4 leading-relaxed break-words">
+                  {project.description}
+                </p>
+
+                {/* Tech Stack */}
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {project.tech.map((tech, techIndex) => {
+                    const TechIcon = techIcons[tech] || HiCode;
+                    return (
+                      <div
+                        key={techIndex}
+                        className="flex items-center gap-1.5 px-2.5 py-1.5 bg-bg-accent-light rounded-lg text-text-secondary border border-border-accent"
+                      >
+                        <TechIcon className="text-sm flex-shrink-0" />
+                        <span className="body-sm font-medium">{tech}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Project Links */}
+                <div className="flex items-center gap-4 pt-2">
+                  {project.link && (
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="body-sm font-medium text-accent-primary hover:text-accent-hover transition-colors duration-200"
+                    >
+                      {t('viewProject')} →
+                    </a>
+                  )}
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="body-sm font-medium text-accent-primary hover:text-accent-hover transition-colors duration-200"
+                    >
+                      {t('github')} →
+                    </a>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Tablet Layout - Horizontal Cards */}
+        <div className="hidden md:block lg:hidden space-y-6">
+          {projects.map((project, index) => {
+            return (
+              <div
+                key={project.id}
+                className="bg-accent-light border border-border-accent rounded-xl p-6 md:p-8 shadow-lg hover:border-accent-primary hover:shadow-xl transition-all duration-300"
+              >
+                <div className="flex flex-col md:flex-row gap-6">
+                  {/* Project Image */}
+                  <div className="relative w-full md:w-1/2 h-64 md:h-80 flex-shrink-0 rounded-lg overflow-hidden">
+                    {project.image ? (
+                      <Image
+                        src={project.image}
+                        alt={project.title}
+                        fill
+                        className="object-cover rounded-lg"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-accent-light flex items-center justify-center rounded-lg">
+                        <span className="text-text-muted text-sm">
+                          No preview available
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Content */}
+                  <div className="flex-1 flex flex-col">
+                {/* Project Title */}
+                <h3 className="h3 text-text-primary mb-3 break-words leading-tight">
+                  {project.title}
+                </h3>
+
+                {/* Project Description */}
+                <p className="body-text text-text-tertiary mb-4 leading-relaxed flex-1 break-words">
+                  {project.description}
+                </p>
+
+                    {/* Tech Stack */}
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {project.tech.map((tech, techIndex) => {
+                        const TechIcon = techIcons[tech] || HiCode;
+                        return (
+                          <div
+                            key={techIndex}
+                            className="flex items-center gap-1.5 px-3 py-2 bg-bg-primary rounded-lg text-text-secondary border border-border-accent"
+                          >
+                            <TechIcon className="text-base flex-shrink-0" />
+                            <span className="body-sm font-medium">{tech}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {/* Project Links */}
+                    <div className="flex items-center gap-4 pt-2">
+                      {project.link && (
+                        <a
+                          href={project.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="body-sm font-medium text-accent-primary hover:text-accent-hover transition-colors duration-200"
+                        >
+                          {t('viewProject')} →
+                        </a>
+                      )}
+                      {project.github && (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="body-sm font-medium text-accent-primary hover:text-accent-hover transition-colors duration-200"
+                        >
+                          {t('github')} →
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Desktop Layout - Swiper with Side Info */}
+        <div className="hidden lg:flex flex-row items-center justify-center gap-12 lg:gap-20 xl:gap-24 2xl:gap-28">
           {/* Vertical Swiper Section */}
-          <div className="relative w-full max-w-md lg:max-w-lg xl:max-w-xl 2xl:max-w-2xl h-[500px] lg:h-[650px] xl:h-[750px] 2xl:h-[850px] animate-slide-in-left">
+          <div className="relative w-full max-w-md lg:max-w-lg xl:max-w-xl 2xl:max-w-2xl h-[650px] xl:h-[750px] 2xl:h-[850px] animate-slide-in-left pb-20">
             <Swiper
               direction="vertical"
               slidesPerView={3}
               centeredSlides
               spaceBetween={-80}
+              speed={600}
               keyboard={{
                 enabled: false, // Disabled - we handle keyboard navigation in PortfolioClient
               }}
               modules={[Navigation, Pagination, Keyboard]}
-              pagination={{ clickable: true }}
+              pagination={{ 
+                clickable: true,
+                el: '.swiper-pagination-projects'
+              }}
               onSwiper={(swiper) => {
                 swiperRef.current = swiper;
                 setIsAtBeginning(swiper.isBeginning);
@@ -186,6 +358,9 @@ const Projects = forwardRef<ProjectsRef, ProjectsProps>(({ sectionRef, projects,
               }}
               onSlideChange={handleSlideChange}
               className="h-full projects-vertical-swiper"
+              watchOverflow={true}
+              resistance={true}
+              resistanceRatio={0.85}
             >
               {projects.map((project, index) => {
                 const isActive = index === activeIndex;
@@ -193,13 +368,14 @@ const Projects = forwardRef<ProjectsRef, ProjectsProps>(({ sectionRef, projects,
                   <SwiperSlide key={project.id}>
                     <div
                       className={`
-                        relative w-full h-[220px] lg:h-[280px] xl:h-[320px] 2xl:h-[360px] mx-auto rounded-2xl overflow-hidden shadow-2xl transition-all duration-700 border-2
+                        relative w-full h-[280px] xl:h-[320px] 2xl:h-[360px] mx-auto rounded-2xl overflow-hidden shadow-2xl transition-transform duration-500 border-2
                         ${
                           isActive
                             ? 'scale-100 z-20 border-accent-primary'
                             : 'scale-80 opacity-60 grayscale border-border-primary'
                         }
                       `}
+                      style={{ willChange: isActive ? 'transform' : 'auto' }}
                     >
                     {project.image ? (
                       <Image
@@ -207,7 +383,7 @@ const Projects = forwardRef<ProjectsRef, ProjectsProps>(({ sectionRef, projects,
                         alt={project.title}
                         fill
                         className="object-cover rounded-2xl"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 600px, (max-width: 1536px) 700px, 800px"
+                        sizes="(max-width: 1280px) 600px, (max-width: 1536px) 700px, 800px"
                       />
                     ) : (
                       <div className="w-full h-full bg-accent-light flex items-center justify-center rounded-2xl">
@@ -222,8 +398,11 @@ const Projects = forwardRef<ProjectsRef, ProjectsProps>(({ sectionRef, projects,
               })}
             </Swiper>
             
-            {/* Custom Navigation Buttons - Positioned next to swiper */}
-            <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-full lg:translate-x-8 xl:translate-x-12 2xl:translate-x-16 flex flex-col gap-3 z-30 hidden lg:flex">
+            {/* Pagination - Positioned below swiper */}
+            <div className="swiper-pagination-projects absolute bottom-0 left-1/2 -translate-x-1/2 w-full flex justify-center gap-2 z-10"></div>
+            
+            {/* Custom Navigation Buttons - Positioned on the side */}
+            <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-8 xl:translate-x-12 2xl:translate-x-16 flex flex-col gap-3 z-30">
               <button
                 onClick={handlePrev}
                 disabled={isAtBeginning}
@@ -251,26 +430,26 @@ const Projects = forwardRef<ProjectsRef, ProjectsProps>(({ sectionRef, projects,
           </div>
 
           {/* Info Section */}
-          <div className="flex flex-col items-center lg:items-start flex-1 max-w-lg xl:max-w-xl 2xl:max-w-2xl h-[500px] lg:h-[650px] xl:h-[750px] 2xl:h-[850px] justify-center animate-slide-in-right">
-            <div className="text-center lg:text-left transition-all duration-500 w-full flex flex-col h-full justify-between py-4">
-              {/* Title Section - Fixed Height */}
-              <div className="h-[70px] sm:h-[80px] lg:h-[90px] flex flex-col justify-center flex-shrink-0">
-                <h3 className="h3 text-text-primary mb-3 relative inline-block">
+          <div className="flex flex-col items-start flex-1 max-w-lg xl:max-w-xl 2xl:max-w-2xl h-[650px] xl:h-[750px] 2xl:h-[850px] justify-center animate-slide-in-right">
+            <div className="text-left transition-all duration-500 w-full flex flex-col h-full justify-between py-4">
+              {/* Title Section - Flexible Height */}
+              <div className="flex flex-col justify-center flex-shrink-0 min-h-[60px] max-h-[120px] mb-4">
+                <h3 className="h3 text-text-primary mb-3 break-words leading-tight">
                   {projects[activeIndex].title}
-                  <span className="block w-12 sm:w-16 h-[2px] bg-accent-primary mx-auto lg:mx-0 mt-2"></span>
                 </h3>
+                <span className="block w-16 h-[2px] bg-accent-primary mt-2"></span>
               </div>
               
               {/* Description Section - Flexible but with min-height */}
-              <div className="flex-1 min-h-[120px] sm:min-h-[140px] md:min-h-[160px] lg:min-h-[180px] xl:min-h-[200px] max-h-[200px] sm:max-h-[220px] md:max-h-[240px] lg:max-h-[260px] xl:max-h-[280px] overflow-y-auto scrollbar-hide my-2 sm:my-3 lg:my-4">
-                <p className="text-text-tertiary body-text">
+              <div className="flex-1 min-h-[180px] xl:min-h-[200px] max-h-[300px] xl:max-h-[320px] overflow-y-auto scrollbar-hide my-4">
+                <p className="text-text-tertiary body-text break-words leading-relaxed">
                   {projects[activeIndex].description}
                 </p>
               </div>
 
               {/* Tech Stack - Fixed Height to accommodate max 5 items */}
-              <div className="h-[70px] sm:h-[80px] md:h-[90px] lg:h-[100px] overflow-y-auto scrollbar-hide flex-shrink-0 my-2 sm:my-3 lg:my-4">
-                <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
+              <div className="h-[100px] overflow-y-auto scrollbar-hide flex-shrink-0 my-4">
+                <div className="flex flex-wrap gap-3 justify-start">
                   {projects[activeIndex].tech.map((tech, techIndex) => {
                     const Icon = techIcons[tech] || HiCode;
                     return (
@@ -278,7 +457,7 @@ const Projects = forwardRef<ProjectsRef, ProjectsProps>(({ sectionRef, projects,
                         key={techIndex}
                         className="flex items-center gap-2 px-3 py-2 bg-accent-light rounded-lg text-text-secondary border border-border-accent hover:bg-accent-light transition-colors duration-200"
                       >
-                        <Icon className="text-base sm:text-lg flex-shrink-0" />
+                        <Icon className="text-lg flex-shrink-0" />
                         <span className="body-sm font-medium">{tech}</span>
                       </div>
                     );
@@ -287,7 +466,7 @@ const Projects = forwardRef<ProjectsRef, ProjectsProps>(({ sectionRef, projects,
               </div>
 
               {/* Project Links - Fixed Height */}
-              <div className="h-[28px] flex items-center gap-4 justify-center lg:justify-start flex-shrink-0 my-2 sm:my-3 lg:my-4">
+              <div className="h-[28px] flex items-center gap-4 justify-start flex-shrink-0 my-4">
                 {projects[activeIndex].link && (
                   <a
                     href={projects[activeIndex].link}
@@ -308,33 +487,6 @@ const Projects = forwardRef<ProjectsRef, ProjectsProps>(({ sectionRef, projects,
                     {t('github')}
                   </a>
                 )}
-              </div>
-
-              {/* Mobile Navigation Buttons */}
-              <div className="flex flex-row items-center gap-3 justify-center lg:hidden flex-shrink-0 mt-4">
-                <button
-                  onClick={handlePrev}
-                  disabled={isAtBeginning}
-                  className={`group relative flex items-center justify-center w-14 h-14 rounded-xl bg-accent-light border-2 border-border-accent text-text-secondary shadow-md hover:bg-gradient-to-br hover:from-accent-primary hover:to-accent-secondary hover:border-accent-primary hover:text-text-inverse hover:shadow-xl active:bg-gradient-to-br active:from-accent-hover active:to-accent-active active:border-accent-hover active:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-accent-light disabled:hover:border-border-accent disabled:hover:text-text-secondary disabled:hover:shadow-md ${
-                    prevButtonAnimating ? 'arrow-click-animation' : ''
-                  }`}
-                  aria-label="Previous project"
-                >
-                  <div className="absolute inset-0 rounded-xl bg-bg-overlay opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity duration-300"></div>
-                  <FaArrowUp className="text-lg relative z-10 transition-colors duration-300" />
-                </button>
-
-                <button
-                  onClick={handleNext}
-                  disabled={isAtEnd}
-                  className={`group relative flex items-center justify-center w-14 h-14 rounded-xl bg-accent-light border-2 border-border-accent text-text-secondary shadow-md hover:bg-gradient-to-br hover:from-accent-primary hover:to-accent-secondary hover:border-accent-primary hover:text-text-inverse hover:shadow-xl active:bg-gradient-to-br active:from-accent-hover active:to-accent-active active:border-accent-hover active:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-accent-light disabled:hover:border-border-accent disabled:hover:text-text-secondary disabled:hover:shadow-md ${
-                    nextButtonAnimating ? 'arrow-click-animation' : ''
-                  }`}
-                  aria-label="Next project"
-                >
-                  <div className="absolute inset-0 rounded-xl bg-bg-overlay opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity duration-300"></div>
-                  <FaArrowDown className="text-lg relative z-10 transition-colors duration-300" />
-                </button>
               </div>
             </div>
           </div>

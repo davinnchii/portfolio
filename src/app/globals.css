@@ -448,9 +448,44 @@ html {
   scroll-padding-top: 6rem; /* Account for fixed navigation */
   scroll-snap-type: y proximity;
   -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  /* Optimize scroll performance */
+  overscroll-behavior-y: contain;
 }
 
-/* Scroll snap is handled by Tailwind classes (snap-center) on sections */
+/* Enhanced scroll snap for projects section - allow smooth scrolling through */
+#projects {
+  scroll-snap-align: center; /* Changed to center to allow scrolling through the section */
+  scroll-snap-stop: normal; /* Allow passing through */
+  scroll-margin-bottom: 0; /* No bottom margin to allow smooth transition */
+}
+
+/* Ensure education section forces a stop when scrolling up from projects */
+#education {
+  scroll-snap-align: start !important; /* Use 'start' so it snaps when top enters viewport when scrolling up */
+  scroll-snap-stop: normal; /* Changed from 'always' to reduce lag - still snaps but doesn't force stop */
+  scroll-margin-top: 6rem; /* Reduced from 12rem to improve performance */
+  scroll-margin-bottom: 2rem;
+}
+
+/* Ensure all other sections have proper snap alignment */
+#about,
+#hero {
+  scroll-snap-align: center;
+  scroll-snap-stop: normal;
+}
+
+/* Make education section more prominent in snap behavior *
+
+/* Smooth scroll transitions for better UX */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  #projects {
+    scroll-behavior: smooth;
+  }
+}
 
 /* Custom animations */
 @keyframes fade-in {
@@ -536,9 +571,21 @@ html {
   opacity: 0;
 }
 
-/* Smooth transitions for sections */
+/* Smooth transitions for sections - optimized for scroll performance */
 section {
   transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+  /* Optimize for scroll performance */
+  contain: layout style paint;
+}
+
+/* Specifically optimize projects section for scroll */
+#projects {
+  contain: layout style paint;
+  transform: translateZ(0); /* Force GPU acceleration */
+  /* Prevent scroll performance issues */
+  overscroll-behavior-y: contain;
+  /* Optimize rendering */
+  isolation: isolate;
 }
 
 /* Smooth transitions for all interactive elements */
@@ -586,16 +633,38 @@ a, button {
   padding-right: 2rem;
 }
 
-.projects-vertical-swiper .swiper-pagination {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: auto;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+.swiper-pagination-projects {
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 50% !important;
+  right: auto !important;
+  top: auto !important;
+  transform: translateX(-50%) !important;
+  width: auto !important;
+  height: auto !important;
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 0.5rem !important;
+  justify-content: center !important;
+  z-index: 10 !important;
+}
+
+.swiper-pagination-projects .swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  background: var(--color-text-muted);
+  opacity: 0.5;
+  margin: 0;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.swiper-pagination-projects .swiper-pagination-bullet-active {
+  background: var(--color-accent-primary);
+  opacity: 1;
+  width: 24px;
+  height: 8px;
+  border-radius: 4px;
 }
 
 .projects-vertical-swiper .swiper-pagination-bullet {
@@ -610,8 +679,8 @@ a, button {
 .projects-vertical-swiper .swiper-pagination-bullet-active {
   background: var(--color-accent-primary);
   opacity: 1;
-  width: 8px;
-  height: 24px;
+  width: 24px;
+  height: 8px;
   border-radius: 4px;
 }
 
@@ -639,10 +708,29 @@ a, button {
   scroll-snap-stop: normal !important;
 }
 
+/* Prevent page scroll when clicking pagination or navigating Swiper */
+.projects-vertical-swiper .swiper-wrapper {
+  scroll-behavior: auto !important;
+}
+
+.projects-vertical-swiper .swiper-slide {
+  scroll-snap-align: none !important;
+}
+
 /* Optimize Swiper performance */
 .projects-vertical-swiper .swiper-wrapper {
   will-change: transform;
   transform: translateZ(0);
+  /* Prevent Swiper from interfering with page scroll */
+  touch-action: pan-y;
+}
+
+/* Optimize Swiper container to not interfere with page scroll */
+.projects-vertical-swiper {
+  /* Isolate Swiper from page scroll performance */
+  contain: layout style paint;
+  /* Prevent scroll chaining */
+  overscroll-behavior: contain;
 }
 
 /* Arrow click animation */

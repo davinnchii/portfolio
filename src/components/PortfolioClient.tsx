@@ -33,7 +33,7 @@ export default function PortfolioClient({ projects, education, testimonials }: P
   const heroObserverRef = useRef<IntersectionObserver | null>(null);
   const sectionsRef = useRef<(HTMLElement | null)[]>([]);
   const projectsRef = useRef<ProjectsRef>(null);
-  
+
   const hasTestimonials = locale === 'no' && testimonials && testimonials.length > 0;
 
   useEffect(() => {
@@ -118,11 +118,11 @@ export default function PortfolioClient({ projects, education, testimonials }: P
         return;
       }
 
-      const sectionIds = hasTestimonials 
+      const sectionIds = hasTestimonials
         ? ['hero', 'about', 'education', 'projects', 'testimonials', 'contact']
         : ['hero', 'about', 'education', 'projects', 'contact'];
       let currentIndex = sectionIds.indexOf(activeSection);
-      
+
       // If activeSection is not in the list, determine based on scroll position
       if (currentIndex === -1) {
         const scrollY = window.scrollY;
@@ -134,39 +134,51 @@ export default function PortfolioClient({ projects, education, testimonials }: P
         }
       }
 
-      // Special handling for projects section
+      // Special handling for projects section (only on desktop with Swiper)
       if (activeSection === 'projects' && projectsRef.current) {
+        // Check if Swiper is actually available (desktop only)
+        // On mobile, isAtEnd() and isAtBeginning() both return false when Swiper isn't available
+        const isAtEnd = projectsRef.current.isAtEnd();
+        const isAtBeginning = projectsRef.current.isAtBeginning();
         const currentSlideIndex = projectsRef.current.getCurrentSlideIndex();
         const totalSlides = projectsRef.current.getTotalSlides();
-        const isLastSlide = currentSlideIndex === totalSlides - 1;
-        const isFirstSlide = currentSlideIndex === 0;
 
-        if (e.key === 'ArrowDown' || e.key === 'PageDown') {
-          e.preventDefault();
-          e.stopPropagation();
-          
-          // Only allow scrolling to contact if we're on the last slide
-          if (isLastSlide) {
-            scrollToSection('contact');
+        // Only do special handling if Swiper is active
+        // On mobile (no Swiper), both isAtEnd and isAtBeginning will be false
+        // and currentSlideIndex will be 0, so we check if we're actually at a boundary
+        const hasSwiper = (isAtEnd || isAtBeginning) || (currentSlideIndex > 0 && currentSlideIndex < totalSlides - 1);
+
+        if (hasSwiper) {
+          const isLastSlide = currentSlideIndex === totalSlides - 1;
+          const isFirstSlide = currentSlideIndex === 0;
+
+          if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Don't scroll to next section - just stay on the last slide
+            if (isLastSlide) {
+              // Stay on current slide, don't scroll
+              return;
+            }
+            // Otherwise, navigate to next slide in carousel
+            projectsRef.current?.slideNext();
+            return;
+          } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Don't scroll to previous section - just stay on the first slide
+            if (isFirstSlide) {
+              // Stay on current slide, don't scroll
+              return;
+            }
+            // Otherwise, navigate to previous slide in carousel
+            projectsRef.current?.slidePrev();
             return;
           }
-          // Otherwise, navigate to next slide in carousel
-          projectsRef.current?.slideNext();
-          return;
-        } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
-          e.preventDefault();
-          e.stopPropagation();
-          
-          // Only allow scrolling to education if we're on the first slide
-          if (isFirstSlide) {
-            scrollToSection('education');
-            return;
-          }
-          // Otherwise, navigate to previous slide in carousel
-          projectsRef.current?.slidePrev();
-          return;
         }
-        // For other keys (Home, End), still handle them
+        // For other keys (Home, End) or if Swiper isn't available, fall through to normal navigation
       }
 
       // Normal section-to-section navigation for non-projects sections
@@ -207,18 +219,18 @@ export default function PortfolioClient({ projects, education, testimonials }: P
   // Scroll listener to detect when scrolling back to hero section (at the very top)
   useEffect(() => {
     let ticking = false;
-    
+
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
           const scrollY = window.scrollY;
-          
+
           // If we're at or near the top of the page, set hero as active
           // This handles cases where IntersectionObserver might not trigger immediately
           if (scrollY < 100) {
             setActiveSection('hero');
           }
-          
+
           ticking = false;
         });
         ticking = true;
@@ -256,13 +268,13 @@ export default function PortfolioClient({ projects, education, testimonials }: P
 
     const scrollToSectionSmooth = (sectionId: string) => {
       if (isScrolling) return;
-      
+
       const element = getSectionElement(sectionId);
       if (!element) return;
 
       isScrolling = true;
       const targetY = sectionId === 'hero' ? 0 : getSectionPosition(sectionId);
-      
+
       window.scrollTo({
         top: targetY,
         behavior: 'smooth'
@@ -284,7 +296,7 @@ export default function PortfolioClient({ projects, education, testimonials }: P
         const projectsRect = projectsSection.getBoundingClientRect();
         const mouseY = e.clientY;
         const isInProjectsSection = mouseY >= projectsRect.top && mouseY <= projectsRect.bottom;
-        
+
         if (isInProjectsSection && projectsRef.current) {
           // Let projects section handle its own wheel events
           return;
@@ -309,16 +321,16 @@ export default function PortfolioClient({ projects, education, testimonials }: P
         wheelDelta = 0;
         lastWheelTime = now;
 
-        const sectionIds = hasTestimonials 
+        const sectionIds = hasTestimonials
           ? ['hero', 'about', 'education', 'projects', 'testimonials', 'contact']
           : ['hero', 'about', 'education', 'projects', 'contact'];
         let currentIndex = sectionIds.indexOf(activeSection);
-        
+
         // If activeSection is not in the list, determine based on scroll position
         if (currentIndex === -1) {
           const scrollY = window.scrollY;
           const viewportHeight = window.innerHeight;
-          
+
           // Determine current section based on scroll position
           const heroPos = getSectionPosition('hero');
           const aboutPos = getSectionPosition('about');
@@ -396,13 +408,13 @@ export default function PortfolioClient({ projects, education, testimonials }: P
   };
 
   return (
-    <div className="min-h-screen bg-transparent text-text-primary scroll-smooth">
+    <div className="min-h-screen bg-transparent text-text-primary scroll-smooth snap-y">
       {/* Sidebar Navigation - Brittany Style */}
       <SidebarNav
         activeSection={activeSection}
         scrollToSection={scrollToSection}
       />
-      
+
       {/* Language Switcher - Desktop */}
       <div className="fixed top-6 right-6 z-50 hidden md:block">
         <LanguageSwitcher />
@@ -418,32 +430,29 @@ export default function PortfolioClient({ projects, education, testimonials }: P
             <div className="flex items-center gap-3">
               <button
                 onClick={() => scrollToSection('about')}
-                className={`body-sm font-medium px-3 py-1.5 rounded-lg transition-all duration-300 ${
-                  activeSection === 'about'
+                className={`body-sm font-medium px-3 py-1.5 rounded-lg transition-all duration-300 ${activeSection === 'about'
                     ? 'text-accent-primary bg-accent-light'
                     : 'text-text-tertiary hover:text-text-primary hover:bg-accent-light'
-                }`}
+                  }`}
               >
                 {t('about')}
               </button>
               <button
                 onClick={() => scrollToSection('projects')}
-                className={`body-sm font-medium px-3 py-1.5 rounded-lg transition-all duration-300 ${
-                  activeSection === 'projects'
+                className={`body-sm font-medium px-3 py-1.5 rounded-lg transition-all duration-300 ${activeSection === 'projects'
                     ? 'text-accent-primary bg-accent-light'
                     : 'text-text-tertiary hover:text-text-primary hover:bg-accent-light'
-                }`}
+                  }`}
               >
                 {t('projects')}
               </button>
               {hasTestimonials && (
                 <button
                   onClick={() => scrollToSection('testimonials')}
-                  className={`body-sm font-medium px-3 py-1.5 rounded-lg transition-all duration-300 ${
-                    activeSection === 'testimonials'
+                  className={`body-sm font-medium px-3 py-1.5 rounded-lg transition-all duration-300 ${activeSection === 'testimonials'
                       ? 'text-accent-primary bg-accent-light'
                       : 'text-text-tertiary hover:text-text-primary hover:bg-accent-light'
-                  }`}
+                    }`}
                 >
                   {t('testimonials')}
                 </button>
@@ -505,7 +514,7 @@ export default function PortfolioClient({ projects, education, testimonials }: P
         ref={(el) => {
           sectionsRef.current[hasTestimonials ? 4 : 3] = el;
         }}
-        className="md:ml-24 pt-12 sm:pt-16 snap-start opacity-0 translate-y-8 transition-all duration-700"
+        className="min-h-screen flex flex-col justify-center md:ml-24 pt-12 sm:pt-16 snap-start opacity-0 translate-y-8 transition-all duration-700"
       >
         <Container>
           <div className="max-w-2xl mx-auto mb-6 sm:mb-8">

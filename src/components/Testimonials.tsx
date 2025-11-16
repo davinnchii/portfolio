@@ -23,7 +23,7 @@ export default function Testimonials({ sectionRef, testimonials }: TestimonialsP
     <section
       ref={sectionRef}
       id="testimonials"
-      className="mb-32 scroll-mt-24 snap-center opacity-0 translate-y-8 transition-all duration-700"
+      className="min-h-screen flex flex-col justify-center mb-32 scroll-mt-24 snap-center opacity-0 translate-y-8 transition-all duration-700"
     >
       <div className="max-w-5xl mx-auto w-full">
         <h2 className="h2 mb-4 sm:mb-6 text-center text-text-primary">
