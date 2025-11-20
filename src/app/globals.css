@@ -588,6 +588,18 @@ section {
   isolation: isolate;
 }
 
+/* Mobile Safari compatibility fixes */
+@supports (-webkit-touch-callout: none) {
+  /* iOS Safari specific fixes for better rendering and transitions */
+  #projects {
+    /* Ensure transitions work on Safari */
+    -webkit-transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    /* Ensure opacity transitions work smoothly */
+    -webkit-transition: opacity 0.7s ease-out, -webkit-transform 0.7s ease-out;
+  }
+}
+
 /* Smooth transitions for all interactive elements */
 a, button {
   transition: all 0.2s ease;
