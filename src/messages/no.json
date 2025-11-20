@@ -166,10 +166,10 @@
     "items": [
       {
         "id": 1,
-        "name": "Navn på person",
-        "role": "Rolle/Stilling",
-        "company": "Selskap",
-        "feedback": "Her kan du legge inn feedback fra personen. Dette er et eksempel på hvordan en referanse kan se ut."
+        "name": "Maria Mori",
+        "role": "Daglig leder og innehaver",
+        "company": "Hava Skien AS",
+        "feedback": "Ivan arbeider i forkant og på en logistikkmessig fornuftig måte. Han er løsningsorientert og tar ledelse ved behov. Han arbeider dessuten effektivt samt fleksibelt"
       },
       {
         "id": 2,
@@ -207,6 +207,10 @@
       "messageRequired": "Melding er påkrevd",
       "messageMinLength": "Melding må være minst 10 tegn"
     }
+  },
+  "notFound": {
+    "message": "Siden du leter etter finnes ikke.",
+    "backToHome": "Tilbake til hjemmesiden"
   }
 }
 
