@@ -46,11 +46,17 @@ export default function PortfolioClient({ projects, education, testimonials }: P
     const threshold = isMobileSafari ? 0.1 : 0.3;
     const rootMargin = isMobileSafari ? '0px 0px -50px 0px' : '0px 0px -200px 0px';
 
+    // Track sections that have been animated by IntersectionObserver
+    const animatedSections = new Set<HTMLElement>();
+
     // Intersection Observer for scroll animations and active section tracking
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
+            // Mark as animated
+            animatedSections.add(entry.target as HTMLElement);
+            
             entry.target.classList.add('opacity-100', 'translate-y-0');
             entry.target.classList.remove('opacity-0', 'translate-y-8');
 
@@ -82,16 +88,17 @@ export default function PortfolioClient({ projects, education, testimonials }: P
       observeSections();
     }, 100);
 
-    // Fallback for mobile Safari: make sections visible on scroll
+    // Fallback for mobile Safari: only trigger if IntersectionObserver hasn't worked after delay
     let scrollTimeout: NodeJS.Timeout;
     const handleScrollFallback = () => {
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
         sectionsRef.current.forEach((section) => {
-          if (section) {
+          if (section && !animatedSections.has(section)) {
             const rect = section.getBoundingClientRect();
             const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
             if (isInViewport && section.classList.contains('opacity-0')) {
+              // Only apply fallback if IntersectionObserver hasn't handled it
               section.classList.add('opacity-100', 'translate-y-0');
               section.classList.remove('opacity-0', 'translate-y-8');
             }
@@ -101,20 +108,31 @@ export default function PortfolioClient({ projects, education, testimonials }: P
     };
 
     if (isMobileSafari) {
-      window.addEventListener('scroll', handleScrollFallback, { passive: true });
+      // Only start fallback after IntersectionObserver has had time to work
+      const fallbackDelay = setTimeout(() => {
+        window.addEventListener('scroll', handleScrollFallback, { passive: true });
+      }, 1000); // Give IntersectionObserver 1 second to work first
+
+      return () => {
+        clearTimeout(timeoutId);
+        clearTimeout(scrollTimeout);
+        clearTimeout(fallbackDelay);
+        sectionsRef.current.forEach((section) => {
+          if (section) {
+            observer.unobserve(section);
+          }
+        });
+        window.removeEventListener('scroll', handleScrollFallback);
+      };
     }
 
     return () => {
       clearTimeout(timeoutId);
-      clearTimeout(scrollTimeout);
       sectionsRef.current.forEach((section) => {
         if (section) {
           observer.unobserve(section);
         }
       });
-      if (isMobileSafari) {
-        window.removeEventListener('scroll', handleScrollFallback);
-      }
     };
   }, []);
 
@@ -156,18 +174,20 @@ export default function PortfolioClient({ projects, education, testimonials }: P
     };
   }, []);
 
-  // Fallback: Ensure sections become visible on mobile Safari
+  // Fallback: Ensure sections become visible on mobile Safari (only as last resort)
   useEffect(() => {
     const isMobileSafari = /iPhone|iPad|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
     
     if (!isMobileSafari) return;
 
-    // Check and make visible after a delay
+    // Only check after IntersectionObserver has had plenty of time to work
+    // This ensures animations still play via IntersectionObserver
     const checkVisibility = () => {
       sectionsRef.current.forEach((section) => {
         if (section) {
           const rect = section.getBoundingClientRect();
           const isInViewport = rect.top < window.innerHeight * 1.5 && rect.bottom > -window.innerHeight * 0.5;
+          // Only apply fallback if section is still invisible after IntersectionObserver should have triggered
           if (isInViewport && section.classList.contains('opacity-0')) {
             section.classList.add('opacity-100', 'translate-y-0');
             section.classList.remove('opacity-0', 'translate-y-8');
@@ -176,22 +196,27 @@ export default function PortfolioClient({ projects, education, testimonials }: P
       });
     };
 
-    // Check immediately and after delays
-    checkVisibility();
-    const timeout1 = setTimeout(checkVisibility, 500);
-    const timeout2 = setTimeout(checkVisibility, 1000);
-    const timeout3 = setTimeout(checkVisibility, 2000);
+    // Only check after delays (not immediately) to let IntersectionObserver work first
+    const timeout1 = setTimeout(checkVisibility, 1500); // After IntersectionObserver has had time
+    const timeout2 = setTimeout(checkVisibility, 3000); // Final fallback
 
-    // Also check on scroll
-    window.addEventListener('scroll', checkVisibility, { passive: true });
-    window.addEventListener('resize', checkVisibility, { passive: true });
+    // Also check on scroll, but only after initial delay
+    let scrollTimeout: NodeJS.Timeout;
+    const handleScroll = () => {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(checkVisibility, 200);
+    };
+
+    const scrollDelay = setTimeout(() => {
+      window.addEventListener('scroll', handleScroll, { passive: true });
+    }, 1500);
 
     return () => {
       clearTimeout(timeout1);
       clearTimeout(timeout2);
-      clearTimeout(timeout3);
-      window.removeEventListener('scroll', checkVisibility);
-      window.removeEventListener('resize', checkVisibility);
+      clearTimeout(scrollTimeout);
+      clearTimeout(scrollDelay);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
