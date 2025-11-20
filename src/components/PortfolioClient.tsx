@@ -39,6 +39,13 @@ export default function PortfolioClient({ projects, education, testimonials }: P
   useEffect(() => {
     setIsVisible(true);
 
+    // Detect if we're on mobile Safari
+    const isMobileSafari = /iPhone|iPad|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+    
+    // More lenient threshold for mobile Safari
+    const threshold = isMobileSafari ? 0.1 : 0.3;
+    const rootMargin = isMobileSafari ? '0px 0px -50px 0px' : '0px 0px -200px 0px';
+
     // Intersection Observer for scroll animations and active section tracking
     const observer = new IntersectionObserver(
       (entries) => {
@@ -55,21 +62,59 @@ export default function PortfolioClient({ projects, education, testimonials }: P
           }
         });
       },
-      { threshold: 0.3, rootMargin: '0px 0px -200px 0px' }
+      { threshold, rootMargin }
     );
 
-    sectionsRef.current.forEach((section) => {
-      if (section) {
-        observer.observe(section);
-      }
-    });
+    // Function to observe all sections
+    const observeSections = () => {
+      sectionsRef.current.forEach((section) => {
+        if (section) {
+          observer.observe(section);
+        }
+      });
+    };
+
+    // Initial observation
+    observeSections();
+
+    // Re-observe sections after a delay to catch any that were set late
+    const timeoutId = setTimeout(() => {
+      observeSections();
+    }, 100);
+
+    // Fallback for mobile Safari: make sections visible on scroll
+    let scrollTimeout: NodeJS.Timeout;
+    const handleScrollFallback = () => {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        sectionsRef.current.forEach((section) => {
+          if (section) {
+            const rect = section.getBoundingClientRect();
+            const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
+            if (isInViewport && section.classList.contains('opacity-0')) {
+              section.classList.add('opacity-100', 'translate-y-0');
+              section.classList.remove('opacity-0', 'translate-y-8');
+            }
+          }
+        });
+      }, 150);
+    };
+
+    if (isMobileSafari) {
+      window.addEventListener('scroll', handleScrollFallback, { passive: true });
+    }
 
     return () => {
+      clearTimeout(timeoutId);
+      clearTimeout(scrollTimeout);
       sectionsRef.current.forEach((section) => {
         if (section) {
           observer.unobserve(section);
         }
       });
+      if (isMobileSafari) {
+        window.removeEventListener('scroll', handleScrollFallback);
+      }
     };
   }, []);
 
@@ -78,6 +123,10 @@ export default function PortfolioClient({ projects, education, testimonials }: P
     // Use setTimeout to ensure ref is set after render
     const timeoutId = setTimeout(() => {
       if (!heroRef.current) return;
+
+      const isMobileSafari = /iPhone|iPad|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+      const threshold = isMobileSafari ? 0.1 : 0.3;
+      const rootMargin = isMobileSafari ? '0px 0px -50px 0px' : '0px 0px -200px 0px';
 
       const observer = new IntersectionObserver(
         (entries) => {
@@ -90,7 +139,7 @@ export default function PortfolioClient({ projects, education, testimonials }: P
             }
           });
         },
-        { threshold: 0.3, rootMargin: '0px 0px -200px 0px' }
+        { threshold, rootMargin }
       );
 
       heroObserverRef.current = observer;
@@ -104,6 +153,45 @@ export default function PortfolioClient({ projects, education, testimonials }: P
         heroObserverRef.current.unobserve(heroRef.current);
         heroObserverRef.current = null;
       }
+    };
+  }, []);
+
+  // Fallback: Ensure sections become visible on mobile Safari
+  useEffect(() => {
+    const isMobileSafari = /iPhone|iPad|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+    
+    if (!isMobileSafari) return;
+
+    // Check and make visible after a delay
+    const checkVisibility = () => {
+      sectionsRef.current.forEach((section) => {
+        if (section) {
+          const rect = section.getBoundingClientRect();
+          const isInViewport = rect.top < window.innerHeight * 1.5 && rect.bottom > -window.innerHeight * 0.5;
+          if (isInViewport && section.classList.contains('opacity-0')) {
+            section.classList.add('opacity-100', 'translate-y-0');
+            section.classList.remove('opacity-0', 'translate-y-8');
+          }
+        }
+      });
+    };
+
+    // Check immediately and after delays
+    checkVisibility();
+    const timeout1 = setTimeout(checkVisibility, 500);
+    const timeout2 = setTimeout(checkVisibility, 1000);
+    const timeout3 = setTimeout(checkVisibility, 2000);
+
+    // Also check on scroll
+    window.addEventListener('scroll', checkVisibility, { passive: true });
+    window.addEventListener('resize', checkVisibility, { passive: true });
+
+    return () => {
+      clearTimeout(timeout1);
+      clearTimeout(timeout2);
+      clearTimeout(timeout3);
+      window.removeEventListener('scroll', checkVisibility);
+      window.removeEventListener('resize', checkVisibility);
     };
   }, []);
 
