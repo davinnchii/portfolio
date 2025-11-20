@@ -179,6 +179,10 @@
       "messageRequired": "Message is required",
       "messageMinLength": "Message must be at least 10 characters"
     }
+  },
+  "notFound": {
+    "message": "The page you're looking for doesn't exist.",
+    "backToHome": "Back to Home Page"
   }
 }
 
