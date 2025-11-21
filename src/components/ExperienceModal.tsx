@@ -12,7 +12,7 @@ interface ExperienceModalProps {
 export default function ExperienceModal({ isOpen, onClose }: ExperienceModalProps) {
   const t = useTranslations('about.experienceModal');
 
-  // Close on Escape key
+  // Close on Escape key and prevent body scroll
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
@@ -22,14 +22,38 @@ export default function ExperienceModal({ isOpen, onClose }: ExperienceModalProp
 
     if (isOpen) {
       document.addEventListener('keydown', handleEscape);
-      // Prevent body scroll when modal is open
+      
+      // Save current scroll position
+      const scrollY = window.scrollY;
+      const scrollX = window.scrollX;
+      
+      // Prevent body scroll when modal is open - more robust approach
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = `-${scrollX}px`;
+      document.body.style.right = '0';
       document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      
+      // Prevent touch scrolling on mobile
+      document.body.style.touchAction = 'none';
+      
+      return () => {
+        document.removeEventListener('keydown', handleEscape);
+        
+        // Restore scroll position and styles
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.left = '';
+        document.body.style.right = '';
+        document.body.style.overflow = '';
+        document.body.style.touchAction = '';
+        document.documentElement.style.overflow = '';
+        
+        // Restore scroll position
+        window.scrollTo(scrollX, scrollY);
+      };
     }
-
-    return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'unset';
-    };
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
@@ -46,12 +70,20 @@ export default function ExperienceModal({ isOpen, onClose }: ExperienceModalProp
       {/* Modal */}
       <div
         className="fixed inset-0 z-50 flex items-center justify-center p-4"
-        onClick={(e) => e.stopPropagation()}
+        onClick={(e) => {
+          // Close modal if clicking outside the content
+          if (e.target === e.currentTarget) {
+            onClose();
+          }
+        }}
         role="dialog"
         aria-modal="true"
         aria-labelledby="experience-modal-title"
       >
-        <div className="bg-bg-card border border-border-primary rounded-lg shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-modal-scale-in">
+        <div 
+          className="bg-bg-card border border-border-primary rounded-lg shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto scrollbar-hide animate-modal-scale-in"
+          onClick={(e) => e.stopPropagation()}
+        >
           {/* Header */}
           <div className="sticky top-0 bg-bg-card border-b border-border-primary px-6 py-4 flex items-center justify-between z-10">
             <h2

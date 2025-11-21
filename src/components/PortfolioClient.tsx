@@ -636,10 +636,6 @@ export default function PortfolioClient({ projects, education, testimonials }: P
             </h3>
             <ContactForm />
           </div>
-          <div className="text-center body-sm text-text-tertiary mt-8 sm:mt-12">
-            <p>{tFooter('designed')}</p>
-            <p className="mt-2">© {new Date().getFullYear()}</p>
-          </div>
         </Container>
       </footer>
     </div>
