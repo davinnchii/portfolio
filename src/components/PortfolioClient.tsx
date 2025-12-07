@@ -521,7 +521,7 @@ export default function PortfolioClient({ projects, education, testimonials }: P
   };
 
   return (
-    <div className="min-h-screen bg-transparent text-text-primary scroll-smooth snap-y">
+    <div className="min-h-screen bg-transparent text-text-primary scroll-smooth">
       {/* Sidebar Navigation - Brittany Style */}
       <SidebarNav
         activeSection={activeSection}
