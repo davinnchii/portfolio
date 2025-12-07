@@ -153,7 +153,7 @@ const Projects = forwardRef<ProjectsRef, ProjectsProps>(({ sectionRef, projects,
         }
       }}
       id="projects"
-      className="min-h-screen flex flex-col justify-center scroll-mt-24 snap-end xl:snap-center opacity-0 translate-y-8 transition-all duration-700"
+      className="min-h-screen flex flex-col justify-center scroll-mt-24 opacity-0 translate-y-8 transition-all duration-700"
     >
       <div className="max-w-6xl xl:max-w-7xl 2xl:max-w-[90rem] mx-auto w-full px-4">
         <div className="mb-8 sm:mb-12 text-center">
