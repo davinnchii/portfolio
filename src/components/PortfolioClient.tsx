@@ -299,7 +299,7 @@ export default function PortfolioClient({ projects, education, testimonials }: P
         e.preventDefault();
         if (currentIndex < sectionIds.length - 1) {
           if (sectionIds[currentIndex + 1] === 'hero') {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            fastScrollTo(0);
           } else {
             scrollToSection(sectionIds[currentIndex + 1]);
           }
@@ -308,17 +308,17 @@ export default function PortfolioClient({ projects, education, testimonials }: P
         e.preventDefault();
         if (currentIndex > 0) {
           if (sectionIds[currentIndex - 1] === 'hero') {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            fastScrollTo(0);
           } else {
             scrollToSection(sectionIds[currentIndex - 1]);
           }
         } else {
           // Scroll to top/hero section
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          fastScrollTo(0);
         }
       } else if (e.key === 'Home') {
         e.preventDefault();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        fastScrollTo(0);
       } else if (e.key === 'End') {
         e.preventDefault();
         scrollToSection('contact');
@@ -354,161 +354,39 @@ export default function PortfolioClient({ projects, education, testimonials }: P
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Smooth mousewheel section-to-section scrolling
-  useEffect(() => {
-    // Only enable on desktop (not touch devices)
-    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    if (isTouchDevice) return;
+  // Fast smooth scroll helper
+  const fastScrollTo = (targetY: number) => {
+    const startY = window.scrollY;
+    const distance = targetY - startY;
+    const duration = Math.min(Math.abs(distance) * 0.5, 400); // Faster: max 400ms, scales with distance
+    let startTime: number | null = null;
 
-    let isScrolling = false;
-    let lastWheelTime = 0;
-    let wheelDelta = 0;
-    const throttleDelay = 600; // Minimum time between section scrolls (ms)
-    const wheelThreshold = 40; // Accumulated wheel delta needed to trigger scroll
-
-    const getSectionElement = (sectionId: string): HTMLElement | null => {
-      if (sectionId === 'hero') {
-        return heroRef.current;
-      }
-      return document.getElementById(sectionId);
+    const easeInOutCubic = (t: number): number => {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
     };
 
-    const getSectionPosition = (sectionId: string): number => {
-      const element = getSectionElement(sectionId);
-      if (!element) return 0;
-      return element.getBoundingClientRect().top + window.scrollY;
-    };
-
-    const scrollToSectionSmooth = (sectionId: string) => {
-      if (isScrolling) return;
-
-      const element = getSectionElement(sectionId);
-      if (!element) return;
-
-      isScrolling = true;
-      const targetY = sectionId === 'hero' ? 0 : getSectionPosition(sectionId);
-
-      window.scrollTo({
-        top: targetY,
-        behavior: 'smooth'
-      });
-
-      // Reset scrolling flag after animation completes
-      setTimeout(() => {
-        isScrolling = false;
-      }, 1000);
-    };
-
-    const handleWheel = (e: WheelEvent) => {
-      // Only handle vertical scrolling
-      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
-
-      // Check if we're in the projects section - let it handle its own scrolling
-      const projectsSection = document.getElementById('projects');
-      if (projectsSection) {
-        const projectsRect = projectsSection.getBoundingClientRect();
-        const mouseY = e.clientY;
-        const isInProjectsSection = mouseY >= projectsRect.top && mouseY <= projectsRect.bottom;
-
-        if (isInProjectsSection && projectsRef.current) {
-          // Let projects section handle its own wheel events
-          return;
-        }
-      }
-
-      // Check if we're in an input/textarea - don't interfere
-      const target = e.target as HTMLElement;
-      if (
-        target instanceof HTMLInputElement ||
-        target instanceof HTMLTextAreaElement ||
-        target.closest('input, textarea')
-      ) {
-        return;
-      }
-
-      const now = Date.now();
-      wheelDelta += Math.abs(e.deltaY);
-
-      // Only process if enough wheel movement accumulated and enough time passed
-      if (wheelDelta >= wheelThreshold && (now - lastWheelTime >= throttleDelay)) {
-        wheelDelta = 0;
-        lastWheelTime = now;
-
-        const sectionIds = hasTestimonials
-          ? ['hero', 'about', 'education', 'projects', 'testimonials', 'contact']
-          : ['hero', 'about', 'education', 'projects', 'contact'];
-        let currentIndex = sectionIds.indexOf(activeSection);
-
-        // If activeSection is not in the list, determine based on scroll position
-        if (currentIndex === -1) {
-          const scrollY = window.scrollY;
-          const viewportHeight = window.innerHeight;
-
-          // Determine current section based on scroll position
-          const heroPos = getSectionPosition('hero');
-          const aboutPos = getSectionPosition('about');
-          const educationPos = getSectionPosition('education');
-          const projectsPos = getSectionPosition('projects');
-          const testimonialsPos = hasTestimonials ? getSectionPosition('testimonials') : null;
-          const contactPos = getSectionPosition('contact');
-
-          if (scrollY < aboutPos - viewportHeight * 0.3) {
-            currentIndex = 0; // hero
-          } else if (scrollY < educationPos - viewportHeight * 0.3) {
-            currentIndex = 1; // about
-          } else if (scrollY < projectsPos - viewportHeight * 0.3) {
-            currentIndex = 2; // education
-          } else if (hasTestimonials && testimonialsPos && scrollY < testimonialsPos - viewportHeight * 0.3) {
-            currentIndex = 3; // projects
-          } else if (hasTestimonials && testimonialsPos && scrollY < contactPos - viewportHeight * 0.3) {
-            currentIndex = 4; // testimonials
-          } else if (!hasTestimonials && scrollY < contactPos - viewportHeight * 0.3) {
-            currentIndex = 3; // projects
-          } else {
-            currentIndex = hasTestimonials ? 5 : 4; // contact
-          }
-        }
-
-        // Prevent default scrolling
-        e.preventDefault();
-
-        // Determine scroll direction and navigate
-        if (e.deltaY > 0) {
-          // Scrolling down
-          if (currentIndex < sectionIds.length - 1) {
-            scrollToSectionSmooth(sectionIds[currentIndex + 1]);
-          }
-        } else {
-          // Scrolling up
-          if (currentIndex > 0) {
-            scrollToSectionSmooth(sectionIds[currentIndex - 1]);
-          } else {
-            // Scroll to top/hero section
-            scrollToSectionSmooth('hero');
-          }
-        }
+    const animateScroll = (currentTime: number) => {
+      if (startTime === null) startTime = currentTime;
+      const timeElapsed = currentTime - startTime;
+      const progress = Math.min(timeElapsed / duration, 1);
+      const ease = easeInOutCubic(progress);
+      
+      window.scrollTo(0, startY + distance * ease);
+      
+      if (progress < 1) {
+        requestAnimationFrame(animateScroll);
       }
     };
 
-    // Reset wheel delta after a delay to prevent accumulation over time
-    const resetWheelDelta = setInterval(() => {
-      if (Date.now() - lastWheelTime > 500) {
-        wheelDelta = 0;
-      }
-    }, 200);
-
-    window.addEventListener('wheel', handleWheel, { passive: false });
-
-    return () => {
-      window.removeEventListener('wheel', handleWheel);
-      clearInterval(resetWheelDelta);
-    };
-  }, [activeSection]);
+    requestAnimationFrame(animateScroll);
+  };
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Fast smooth scroll with custom timing
+      const targetY = sectionId === 'hero' ? 0 : element.getBoundingClientRect().top + window.scrollY - 96; // 96px = 6rem offset
+      fastScrollTo(targetY);
     }
   };
 

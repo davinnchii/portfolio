@@ -446,14 +446,13 @@ body::after {
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 6rem; /* Account for fixed navigation */
-  /* scroll-snap-type: y proximity; */ /* Temporarily disabled */
   -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
   /* Optimize scroll performance */
   overscroll-behavior-y: contain;
 }
 
 /* Enhanced scroll snap for projects section - allow smooth scrolling through */
-/* Temporarily disabled snap scroll
+/* Scroll snap disabled
 #projects {
   scroll-snap-align: center; 
   scroll-snap-stop: normal; 
@@ -462,7 +461,7 @@ html {
 */
 
 /* Ensure education section forces a stop when scrolling up from projects */
-/* Temporarily disabled snap scroll
+/* Scroll snap disabled
 #education {
   scroll-snap-align: start !important; 
   scroll-snap-stop: normal; 
@@ -472,7 +471,7 @@ html {
 */
 
 /* Ensure all other sections have proper snap alignment */
-/* Temporarily disabled snap scroll
+/* Scroll snap disabled
 #about,
 #hero {
   scroll-snap-align: center;
